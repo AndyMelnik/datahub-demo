@@ -150,7 +150,7 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
           </div>
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
