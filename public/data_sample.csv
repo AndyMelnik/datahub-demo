@@ -1,0 +1,53 @@
+object_id,device_id,object_label,model,first_name,last_name,speed,device_time,platform_time,moving_status,connection_status,last_connect_formatted,battery_level,zone_label,group_label,department_label,fuel_level_%,odometer
+3453408,10210058,Buick Enclave - DEF9012,telfmb003_fmc003,Paul,Mauz,0,2025-11-20 9:15:35,2025-11-20 9:15:38,stopped,idle,2025-11-20 9:15:35,13.4,Warehouse Bonn,Second group,,31,91.5
+3442962,10210029,Honda Civic - DEF5678,telfmb003_fmc003,Klaus,Ward,0,2025-11-20 9:15:24,2025-11-20 9:15:27,stopped,idle,2025-11-20 9:15:24,14.2,,,Delivery,23,130.5
+3442961,10315159,Toyota Camry - ABC1234,howen_herome4002,Ida,Shiffer,0,2025-11-20 9:15:16,2025-11-20 9:15:23,stopped,idle,2025-11-20 9:15:16,14.1,Berlin,Second group,,82,864.3
+3453401,10210046,Jaguar XE - IJK1234,telfmb003_fmc003,Ida,Becker,0,2025-11-20 9:09:08,2025-11-20 9:09:09,parked,offline,2025-11-20 9:09:08,13.8,,Office Dresden,Drivers,61,161.3
+3453400,10210044,Scania OmniLink - FGH7890,telfmb003_fmc003,Noah,Schäfer,0,2025-11-20 9:08:32,2025-11-20 9:08:49,parked,offline,2025-11-20 9:08:32,13.6,Airport,Office Berlin,Drivers,99,658.3
+3442964,10210057,Chevrolet Silverado - JKL3456,telfmb003_fmc003,Lukas,Schneider,0,2025-11-20 9:01:24,2025-11-20 9:02:22,parked,offline,2025-11-20 9:01:24,13.4,Warehouse Bonn,Second group,Logistics,72,621.5
+3453409,10210059,Acura MDX - GHI3456,telfmb003_fmc003,Paul,Klein,0,2025-11-20 8:59:30,2025-11-20 9:01:00,parked,offline,2025-11-20 8:59:30,14.2,Warehouse Bonn,,Drivers,45,50.5
+3442963,10210045,Ford F150 - GHI9012,howen_herome4002,Alexander,Klip,0,2025-11-20 8:58:01,2025-11-20 8:58:02,parked,offline,2025-11-20 8:58:01,14.1,,,Logistics,76,253.6
+3453397,10210041,Dodge Charger - WXY5678,howen_herome4002,Oskar,Schröder,0,2025-11-20 8:55:17,2025-11-20 8:56:25,parked,offline,2025-11-20 8:55:17,13.8,Warehouse Bonn,Office Berlin,Logistics,67,506.6
+3453404,10210051,Mini Cooper - RST3456,telfmb003_fmc003,Hannes,Hoffmann,0,2025-11-20 8:55:03,2025-11-20 8:55:31,parked,offline,2025-11-20 8:55:03,13.6,,Office Bonn,Drivers,68,973.1
+3453430,10210099,Li Auto ONE - RST7890,telfmb003_fmc003,Hannah,Zimmermann,0,2025-11-20 8:53:19,2025-11-20 8:55:18,parked,offline,2025-11-20 8:53:19,13.4,Izmir,Office Berlin,Sales,90,554.3
+3453425,10210075,Rivian R1T - CDE7890,telfmb003_fmc003,Sophia,Becker,0,2025-11-20 8:48:36,2025-11-20 8:48:39,parked,offline,2025-11-20 8:48:36,14.2,Izmir,Office Bonn,Sales,74,911.4
+3442966,10210055,BMW 3Series - MNO7890,telfmb003_fmc003,Johann,Friedrich,0,2025-11-18 17:53:49,2025-11-18 17:54:44,parked,offline,2025-11-18 17:53:49,14.1,Warehouse Bonn,Office Berlin,Delivery,18,323.6
+3453386,10210020,MercedesBenz CClass - PQR1234,telfmb003_fmc003,Lukas,Becker,0,2025-11-20 9:15:35,2025-11-20 9:15:38,stopped,idle,2025-11-20 9:15:35,13.8,Warehouse Bonn,Office Dresden,Drivers,6,954.3
+3453387,10210022,Audi A4 - STU5678,howen_herome3104_3004,Andy,Whisper,0,2025-11-20 9:15:24,2025-11-20 9:15:27,stopped,idle,2025-11-20 9:15:24,13.6,,,Delivery,100,477.5
+3453388,10210023,Nissan Altima - VWX9012,howen_herome3104_3004,Ida,Schmidt,0,2025-11-20 9:15:16,2025-11-20 9:15:23,stopped,idle,2025-11-20 9:15:16,12.3,Berlin,Second group,Drivers,9,229.6
+3453392,10210030,Subaru Outback - HIJ5678,telfmb003_fmc003,Lina,Schneider,0,2025-11-20 9:09:08,2025-11-20 9:09:09,parked,offline,2025-11-20 9:09:08,12.1,,,Delivery,59,721.7
+3453394,10210037,Tesla Model3 - NOP3456,telfmb003_fmc003,Ida,Schröder,0,2025-11-20 9:08:32,2025-11-20 9:08:49,parked,offline,2025-11-20 9:08:32,12,Airport,Office Berlin,Drivers,92,510.6
+3453395,10210039,Lexus RX - QRS7890,telfmb003_fmc003,Marie,Hoffmann,0,2025-11-20 9:01:24,2025-11-20 9:02:22,parked,offline,2025-11-20 9:01:24,11.4,Warehouse Bonn,Office Berlin,Logistics,57,314.8
+3453398,10210042,Chrysler Pacifica - ZAB9012,telfmb003_fmc003,Finn,Becker,0,2025-11-20 8:59:30,2025-11-20 9:01:00,parked,offline,2025-11-20 8:59:30,11.2,Warehouse Bonn,Office Berlin,Delivery,86,71.8
+3453399,10210043,Volvo XC60 - CDE3456,telfmb003_fmc003,Felix,Meyer,0,2025-11-20 8:58:01,2025-11-20 8:58:02,parked,offline,2025-11-20 8:58:01,13.4,,Second group,Sales,31,993.5
+3453402,10210047,LandRover RangeRover - LMN5678,telfmb003_fmc003,Noah,Wolf,23,2025-11-20 8:48:36,2025-11-20 8:48:39,moving,online,2025-11-20 8:55:17,14.2,Warehouse Bonn,Second group,Sales,42,829.7
+3453403,10210048,Fiat 500 - OPQ9012,telfmb003_fmc003,Elias,Schäfer,33,2025-11-18 17:53:49,2025-11-18 17:54:44,moving,online,2025-11-20 8:55:03,14.1,,Second group,Delivery,3,426.0
+3453405,10210052,GMC Sierra - UVW7890,telfmb003_fmc003,Noah,Schmidt,56,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-20 8:53:19,13.8,Izmir,Office Berlin,Drivers,85,608.1
+3453406,10210053,Volvo FM - XYZ1234,telfmb003_fmc003,Ida,Becker,15,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-20 8:48:36,13.6,Izmir,Office Munchen,Logistics,23,59.1
+3453410,10210060,Infiniti Q50 - JKL7890,telfmb003_fmc003,Finn,Schäfer,7,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-18 17:53:49,13.4,Warehouse Bonn,Office Dresden,Logistics,47,651.8
+3453411,10210061,Scania OmniLink - MNO1234,telfmb003_fmc003,Elias,Wolf,11,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:15:35,14.2,Warehouse Bonn,,Drivers,27,123.2
+3453412,10210062,Suzuki Swift - PQR5678,howen_herome4002,Noah,Schmidt,45,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:15:24,14.1,,Office Dresden,Logistics,99,479.4
+3453413,10210063,MAN TGX - STU9012,howen_herome4002,Lina,Meyer,11,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:15:16,13.4,Berlin,Office Munchen,Delivery,66,620.5
+3453416,10210066,Lamborghini Huracán - BCD1234,telfmb003_fmc003,Oskar,Schröder,0,2025-11-20 9:09:08,2025-11-20 9:09:09,parked,offline,2025-11-20 9:09:08,14.2,,Office Berlin,Sales,23,270.1
+3453417,10210067,MAN TGX - EFG5678,telfmb003_fmc003,Leon,Richter,0,2025-11-20 9:08:32,2025-11-20 9:08:49,parked,offline,2025-11-20 9:08:32,14.1,Airport,Office Munchen,Logistics,96,588.2
+3453418,10210068,Maserati Ghibli - HIJ9012,telfmb003_fmc003,Leon,Wagner,0,2025-11-20 9:01:24,2025-11-20 9:02:22,parked,offline,2025-11-20 9:01:24,13.8,Warehouse Bonn,Office Dresden,Sales,95,45.4
+3453420,10210070,Bugatti Chiron - NOP7890,howen_herome3104_3004,Emma,Fischer,0,2025-11-20 8:59:30,2025-11-20 9:01:00,parked,online,2025-11-20 8:59:30,13.6,Warehouse Bonn,,Delivery,59,472.0
+3453421,10210071,MAN TGX - QRS1234,howen_herome3104_3004,Mila,Klein,0,2025-11-20 8:58:01,2025-11-20 8:58:02,parked,online,2025-11-20 8:58:01,13.4,,,Sales,72,296.0
+3453422,10210072,AlfaRomeo Giulia - TUV5678,howen_herome3104_3004,Ida,Schröder,0,2025-11-20 8:55:17,2025-11-20 8:56:25,parked,online,2025-11-20 8:55:17,14.2,Warehouse Bonn,,Drivers,92,466.6
+3453423,10210073,Volvo FM - WXY9012,howen_herome3104_3004,Finn,Schröder,0,2025-11-20 8:55:03,2025-11-20 8:55:31,parked,online,2025-11-20 8:55:03,14.1,,Office Munchen,Sales,54,633.2
+3453424,10210074,Lucid Air - ZAB3456,howen_herome3104_3004,Emily,Wolf,0,2025-11-20 8:53:19,2025-11-20 8:55:18,parked,online,2025-11-20 8:53:19,13.8,Izmir,Office Bonn,Logistics,73,507.4
+3453426,10210093,Polestar 2 - FGH1234,telfmb003_fmc003,Sophia,Bauer,84,2025-11-20 8:48:36,2025-11-20 8:48:39,moving,online,2025-11-20 8:48:36,13.4,Izmir,,Sales,3,800.0
+3453427,10210095,BYD Han - IJK5678,telfmb003_fmc003,Emily,Wolf,98,2025-11-18 17:53:49,2025-11-18 17:54:44,moving,online,2025-11-18 17:53:49,14.2,Warehouse Bonn,Office Dresden,Delivery,17,787.2
+3453428,10210097,NIO ET7 - LMN9012,telfmb003_fmc003,Lea,Klein,91,2025-11-20 8:55:03,2025-11-20 8:55:31,moving,online,2025-11-20 8:55:03,14.1,Warehouse Bonn,,Logistics,22,569.1
+3453429,10210098,XPeng P7 - OPQ3456,telfmb003_fmc003,Felix,Becker,83,2025-11-20 8:53:19,2025-11-20 8:55:18,moving,online,2025-11-20 8:53:19,13.8,Warehouse Bonn,,Logistics,50,211.3
+3453431,10215773,Hongqi H9 - UVW1234,howen_herome3104_3004,Sophia,Hoffmann,95,2025-11-20 8:48:36,2025-11-20 8:48:39,moving,online,2025-11-20 8:48:36,13.6,,,Drivers,12,880.1
+3453432,10289987,Volvo FM - XYZ5678,howen_herome4002,Emma,Neumann,89,2025-11-18 17:53:49,2025-11-18 17:54:44,moving,online,2025-11-18 17:53:49,13.4,Berlin,,Sales,57,796.7
+3453407,10210056,Cadillac Escalade - ABC5678,telfmb003_fmc003,Hannah,Wolf,56,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-20 9:13:05,14.2,,Office Dresden,Drivers,0,42.9
+3453391,10210027,Volkswagen Golf - EFG1234,telfmb003_fmc003,Noah,Schwarz,15,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-20 9:13:05,14.1,Airport,Office Berlin,Drivers,99,324.3
+3453415,10210065,RollsRoyce Phantom - YZA7890,telfmb003_fmc003,Marie,Weber,7,2025-11-20 9:13:05,2025-11-20 9:13:33,moving,online,2025-11-20 9:13:05,13.8,Warehouse Bonn,Office Munchen,Drivers,60,61.5
+3453393,10210031,Mazda CX-5 - KLM9012,howen_herome4002,Emma,Müller,11,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:14:30,13.6,Warehouse Bonn,Second group,Logistics,76,414.1
+3453390,10210026,Kia Optima - BCD7890,howen_herome3104_3004,Paul,Becker,45,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:14:30,13.4,,Office Dresden,Drivers,76,535.7
+3453414,10210064,Bentley Continental - VWX3456,telfmb003_fmc003,Marie,Meyer,11,2025-11-20 9:14:30,2025-11-20 9:14:31,moving,online,2025-11-20 9:14:30,14.2,Warehouse Bonn,Second group,Drivers,24,933.2
+3453389,10210025,Hyundai Sonata - YZA3456,telfmb003_fmc003,Lea,Hoffmann,32,2025-11-20 9:00:34,2025-11-20 9:00:38,moving,online,2025-11-20 9:00:34,14.1,,,Sales,68,182.5
+3453396,10210040,Jeep Wrangler - TUV1234,telfmb003_fmc003,Lukas,Schwarz,22,2025-11-20 9:00:34,2025-11-20 9:00:38,moving,online,2025-11-20 9:00:34,13.8,Izmir,Second group,Sales,25,265.9
+3453419,10210069,Aston Martin DB11 - KLM3456,telfmb003_fmc003,Mia,Becker,23,2025-11-20 9:00:34,2025-11-20 9:00:38,moving,online,2025-11-20 9:00:34,13.6,Izmir,Office Berlin,Logistics,51,620.5
