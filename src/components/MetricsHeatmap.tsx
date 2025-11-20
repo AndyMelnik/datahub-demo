@@ -64,9 +64,9 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
               </th>
             </tr>
           </thead>
-            <tbody style={{ background: 'var(--surface-1)' }} className="divide-y" style-border={{ borderColor: 'var(--border)' }}>
+            <tbody style={{ background: 'var(--surface-1)' }} className="divide-y">
               {data.map((dept, idx) => (
-                <tr key={idx} className="transition-colors" style={{ ':hover': { background: 'var(--surface-2)' } }}>
+                <tr key={idx} className="transition-colors hover:bg-gray-50">
                 <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
                   {dept.department}
                 </td>
