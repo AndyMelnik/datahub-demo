@@ -119,7 +119,7 @@ export const ExceptionTable: React.FC<ExceptionTableProps> = ({ vehicles, title 
           No exceptions found. All vehicles operating normally.
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
