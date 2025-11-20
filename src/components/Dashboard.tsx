@@ -8,6 +8,9 @@ import { MetricsHeatmap } from './MetricsHeatmap';
 import { FilterControls } from './FilterControls';
 import { VehicleSelector } from './VehicleSelector';
 import { VehicleDetailView } from './VehicleDetailView';
+import { EditableTitle } from './EditableTitle';
+import { Button } from './ui/Button';
+import { useDashboardConfig } from '../hooks/useDashboardConfig';
 import {
   loadFleetData,
   calculateFleetMetrics,
@@ -31,6 +34,9 @@ export const Dashboard: React.FC = () => {
   const [selectedGroup, setSelectedGroup] = useState<string>('all');
   const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
   const [selectedVehicle, setSelectedVehicle] = useState<FleetVehicle | null>(null);
+  const [isEditMode, setIsEditMode] = useState(false);
+  
+  const { config, updateChartTitle, resetConfig } = useDashboardConfig();
 
   useEffect(() => {
     const loadData = async () => {
@@ -165,7 +171,28 @@ export const Dashboard: React.FC = () => {
                 Real-time monitoring and analytics
               </p>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
+              {isEditMode && (
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={resetConfig}
+                  >
+                    Reset Layout
+                  </Button>
+                  <span className="px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
+                    ✏️ Edit Mode
+                  </span>
+                </div>
+              )}
+              <Button
+                variant={isEditMode ? 'default' : 'outline'}
+                size="sm"
+                onClick={() => setIsEditMode(!isEditMode)}
+              >
+                {isEditMode ? '💾 Save & Exit' : '✏️ Edit Dashboard'}
+              </Button>
               <span 
                 className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
                 style={{ 
@@ -228,13 +255,14 @@ export const Dashboard: React.FC = () => {
         )}
 
         {/* Executive Summary */}
+        {config.charts['executive-summary']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['executive-summary']?.title || 'Executive Summary'}
+            onChange={(title) => updateChartTitle('executive-summary', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Executive Summary
-          </h2>
+          />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <KPICard
               title="Total Vehicles"
@@ -290,15 +318,17 @@ export const Dashboard: React.FC = () => {
             />
           </div>
         </section>
+        )}
 
         {/* Fleet Condition Overview */}
+        {config.charts['fleet-condition']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['fleet-condition']?.title || 'Fleet Condition Overview'}
+            onChange={(title) => updateChartTitle('fleet-condition', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Fleet Condition Overview
-          </h2>
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <StatusDistributionChart
               data={statusDistribution}
@@ -310,15 +340,17 @@ export const Dashboard: React.FC = () => {
             />
           </div>
         </section>
+        )}
 
         {/* Operational Distribution */}
+        {config.charts['operational-dist']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['operational-dist']?.title || 'Operational Distribution'}
+            onChange={(title) => updateChartTitle('operational-dist', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Operational Distribution
-          </h2>
+          />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <BarChartComponent
               data={speedDistribution}
@@ -343,15 +375,17 @@ export const Dashboard: React.FC = () => {
             />
           </div>
         </section>
+        )}
 
         {/* Asset Group Breakdown */}
+        {config.charts['asset-group']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['asset-group']?.title || 'Asset Group Breakdown'}
+            onChange={(title) => updateChartTitle('asset-group', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Asset Group Breakdown
-          </h2>
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             <BarChartComponent
               data={departmentMetrics.map(d => ({ name: d.department, count: d.count }))}
@@ -381,29 +415,33 @@ export const Dashboard: React.FC = () => {
             />
           </div>
         </section>
+        )}
 
         {/* Department Metrics Heatmap */}
+        {config.charts['dept-metrics']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['dept-metrics']?.title || 'Department Performance Metrics'}
+            onChange={(title) => updateChartTitle('dept-metrics', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Department Performance Metrics
-          </h2>
+          />
           <MetricsHeatmap
             data={departmentMetrics}
             title="Department Metrics Comparison"
           />
         </section>
+        )}
 
         {/* Zone Distribution */}
+        {config.charts['geo-dist']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['geo-dist']?.title || 'Geographic Distribution'}
+            onChange={(title) => updateChartTitle('geo-dist', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Geographic Distribution
-          </h2>
+          />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <BarChartComponent
               data={zoneDistribution.map(z => ({ name: z.status, count: z.count }))}
@@ -419,20 +457,23 @@ export const Dashboard: React.FC = () => {
             />
           </div>
         </section>
+        )}
 
         {/* Exception & Risk Monitoring */}
+        {config.charts['exceptions']?.visible !== false && (
         <section className="mb-6">
-          <h2 
+          <EditableTitle
+            value={config.charts['exceptions']?.title || 'Exception & Risk Monitoring'}
+            onChange={(title) => updateChartTitle('exceptions', title)}
+            isEditing={isEditMode}
             className="text-xl font-bold mb-4"
-            style={{ color: 'var(--text-primary)' }}
-          >
-            Exception & Risk Monitoring
-          </h2>
+          />
           <ExceptionTable
             vehicles={exceptionVehicles}
             title="Vehicles Requiring Attention"
           />
         </section>
+        )}
 
         {/* Footer */}
         <footer 
