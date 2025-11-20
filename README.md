@@ -4,6 +4,18 @@ An interactive, real-time fleet management dashboard built with React, TypeScrip
 
 ## 🚀 Features
 
+### 🎯 Interactive Controls (NEW!)
+- **Filter by Group**: Select specific vehicle groups to focus analysis
+- **Filter by Department**: Filter fleet by department (Delivery, Logistics, Drivers, Sales)
+- **Vehicle/Driver Search**: Quick search and selection of individual vehicles or drivers
+- **Detailed Vehicle View**: Comprehensive analysis of selected vehicle with:
+  - Real-time telemetry data
+  - Battery and fuel level gauges
+  - Complete vehicle information
+  - Active alerts and warnings
+  - Driver details
+- **Dynamic Updates**: All charts and metrics update based on filter selections
+
 ### Executive Summary
 - **Total Fleet Metrics**: Overview of total vehicles, active/idle status, and online/offline states
 - **Real-time KPIs**: Moving vehicles, average speed, low fuel/battery alerts, overspeeding detection
@@ -108,6 +120,39 @@ navixy-lp/
 ├── vite.config.ts
 └── tailwind.config.js
 ```
+
+## 🎮 Using Interactive Features
+
+### Filtering Data
+
+1. **Group Filter**: Use the dropdown to select a specific vehicle group
+   - All groups are automatically detected from your data
+   - Charts and metrics update instantly
+
+2. **Department Filter**: Filter vehicles by department
+   - Choose from Delivery, Logistics, Drivers, Sales, or other departments in your data
+   - Can be combined with group filter for precise analysis
+
+3. **Reset Filters**: Click "Reset Filters" to return to viewing all vehicles
+
+### Vehicle Detail Analysis
+
+1. **Search**: Type vehicle name, driver name, or vehicle ID in the search box
+2. **Select**: Click on any vehicle from the dropdown results
+3. **View Details**: See comprehensive information including:
+   - Current speed and connection status
+   - Battery and fuel levels with visual gauges
+   - Complete telemetry data
+   - Vehicle and driver information
+   - Active alerts and warnings
+4. **Clear Selection**: Click "Clear Selection" to return to fleet overview
+
+### Filter Combination
+
+- Filters can be combined for targeted analysis
+- Example: View all "Logistics" department vehicles in "Office Berlin" group
+- Active filters are displayed as removable badges
+- Vehicle count updates to show filtered results
 
 ## 📊 Data Format
 

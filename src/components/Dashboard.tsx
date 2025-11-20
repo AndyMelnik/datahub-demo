@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { KPICard } from './KPICard';
 import { StatusDistributionChart } from './StatusDistributionChart';
 import { BarChartComponent } from './BarChartComponent';
 import { HorizontalBarChart } from './HorizontalBarChart';
 import { ExceptionTable } from './ExceptionTable';
 import { MetricsHeatmap } from './MetricsHeatmap';
+import { FilterControls } from './FilterControls';
+import { VehicleSelector } from './VehicleSelector';
+import { VehicleDetailView } from './VehicleDetailView';
 import {
   loadFleetData,
   calculateFleetMetrics,
@@ -25,6 +28,9 @@ export const Dashboard: React.FC = () => {
   const [vehicles, setVehicles] = useState<FleetVehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<string>('all');
+  const [selectedDepartment, setSelectedDepartment] = useState<string>('all');
+  const [selectedVehicle, setSelectedVehicle] = useState<FleetVehicle | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
@@ -43,6 +49,31 @@ export const Dashboard: React.FC = () => {
 
     loadData();
   }, []);
+
+  // Extract unique groups and departments for filter options
+  const availableGroups = useMemo(() => {
+    const groups = Array.from(new Set(vehicles.map(v => v.group_label).filter(Boolean)));
+    return groups.sort();
+  }, [vehicles]);
+
+  const availableDepartments = useMemo(() => {
+    const departments = Array.from(new Set(vehicles.map(v => v.department_label).filter(Boolean)));
+    return departments.sort();
+  }, [vehicles]);
+
+  // Filter vehicles based on selected filters
+  const filteredVehicles = useMemo(() => {
+    return vehicles.filter(vehicle => {
+      const groupMatch = selectedGroup === 'all' || vehicle.group_label === selectedGroup;
+      const departmentMatch = selectedDepartment === 'all' || vehicle.department_label === selectedDepartment;
+      return groupMatch && departmentMatch;
+    });
+  }, [vehicles, selectedGroup, selectedDepartment]);
+
+  const handleResetFilters = () => {
+    setSelectedGroup('all');
+    setSelectedDepartment('all');
+  };
 
   if (loading) {
     return (
@@ -66,17 +97,17 @@ export const Dashboard: React.FC = () => {
     );
   }
 
-  const metrics = calculateFleetMetrics(vehicles);
-  const statusDistribution = getStatusDistribution(vehicles);
-  const connectionDistribution = getConnectionDistribution(vehicles);
-  const speedDistribution = getSpeedDistribution(vehicles);
-  const fuelDistribution = getFuelDistribution(vehicles);
-  const batteryDistribution = getBatteryDistribution(vehicles);
-  const departmentMetrics = getDepartmentMetrics(vehicles);
-  const groupMetrics = getGroupMetrics(vehicles);
-  const modelDistribution = getModelDistribution(vehicles);
-  const exceptionVehicles = getExceptionVehicles(vehicles);
-  const zoneDistribution = getZoneDistribution(vehicles);
+  const metrics = calculateFleetMetrics(filteredVehicles);
+  const statusDistribution = getStatusDistribution(filteredVehicles);
+  const connectionDistribution = getConnectionDistribution(filteredVehicles);
+  const speedDistribution = getSpeedDistribution(filteredVehicles);
+  const fuelDistribution = getFuelDistribution(filteredVehicles);
+  const batteryDistribution = getBatteryDistribution(filteredVehicles);
+  const departmentMetrics = getDepartmentMetrics(filteredVehicles);
+  const groupMetrics = getGroupMetrics(filteredVehicles);
+  const modelDistribution = getModelDistribution(filteredVehicles);
+  const exceptionVehicles = getExceptionVehicles(filteredVehicles);
+  const zoneDistribution = getZoneDistribution(filteredVehicles);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
@@ -99,6 +130,42 @@ export const Dashboard: React.FC = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Filter Controls */}
+        <FilterControls
+          groups={availableGroups}
+          departments={availableDepartments}
+          selectedGroup={selectedGroup}
+          selectedDepartment={selectedDepartment}
+          onGroupChange={setSelectedGroup}
+          onDepartmentChange={setSelectedDepartment}
+          onResetFilters={handleResetFilters}
+        />
+
+        {/* Vehicle Selector */}
+        <VehicleSelector
+          vehicles={filteredVehicles}
+          onVehicleSelect={setSelectedVehicle}
+          selectedVehicle={selectedVehicle}
+        />
+
+        {/* Vehicle Detail View */}
+        {selectedVehicle && (
+          <section className="mb-8">
+            <VehicleDetailView vehicle={selectedVehicle} />
+          </section>
+        )}
+
+        {/* Results Summary */}
+        {(selectedGroup !== 'all' || selectedDepartment !== 'all') && (
+          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-blue-800">
+              <strong>Showing {filteredVehicles.length}</strong> of {vehicles.length} total vehicles
+              {selectedGroup !== 'all' && ` in group "${selectedGroup}"`}
+              {selectedDepartment !== 'all' && ` in department "${selectedDepartment}"`}
+            </p>
+          </div>
+        )}
+
         {/* Executive Summary */}
         <section className="mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Executive Summary</h2>
