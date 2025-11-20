@@ -1,5 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { Card } from './ui/Card';
 
 interface BarChartComponentProps {
   data: any[];
@@ -19,11 +20,16 @@ export const BarChartComponent: React.FC<BarChartComponentProps> = ({
   height = 300,
 }) => {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 
+        className="text-lg font-semibold mb-6"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        {title}
+      </h3>
       <ResponsiveContainer width="100%" height={height}>
         <BarChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
           <XAxis 
             dataKey={xAxisKey} 
             angle={-45}
@@ -31,14 +37,22 @@ export const BarChartComponent: React.FC<BarChartComponentProps> = ({
             height={100}
             interval={0}
             fontSize={12}
+            stroke="var(--text-muted)"
           />
-          <YAxis />
-          <Tooltip />
+          <YAxis stroke="var(--text-muted)" />
+          <Tooltip 
+            contentStyle={{
+              background: 'var(--surface-1)',
+              border: '1px solid var(--border)',
+              borderRadius: '0.5rem',
+              boxShadow: 'var(--shadow-md)',
+            }}
+          />
           <Legend />
-          <Bar dataKey={dataKey} fill={color} />
+          <Bar dataKey={dataKey} fill={color} radius={[8, 8, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </Card>
   );
 };
 

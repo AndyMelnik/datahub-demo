@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from './ui/Card';
 import type { DepartmentMetrics } from '../types/fleet';
 
 interface MetricsHeatmapProps {
@@ -32,11 +33,16 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
   const minBattery = Math.min(...data.map(d => d.averageBattery));
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 
+        className="text-lg font-semibold mb-6"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        {title}
+      </h3>
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
+        <table className="min-w-full divide-y" style={{ borderColor: 'var(--border)' }}>
+          <thead style={{ background: 'var(--surface-2)' }}>
             <tr>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Department
@@ -58,9 +64,9 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((dept, idx) => (
-              <tr key={idx} className="hover:bg-gray-50">
+            <tbody style={{ background: 'var(--surface-1)' }} className="divide-y" style-border={{ borderColor: 'var(--border)' }}>
+              {data.map((dept, idx) => (
+                <tr key={idx} className="transition-colors" style={{ ':hover': { background: 'var(--surface-2)' } }}>
                 <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
                   {dept.department}
                 </td>

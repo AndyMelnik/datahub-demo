@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Card } from './ui/Card';
 import type { FleetVehicle } from '../types/fleet';
 
 interface VehicleSelectorProps {
@@ -36,8 +37,13 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-6">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">Vehicle / Driver Analysis</h3>
+    <Card className="mb-6 p-6">
+      <h3 
+        className="text-lg font-semibold mb-4"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        Vehicle / Driver Analysis
+      </h3>
       
       <div className="relative">
         <div className="flex gap-2">

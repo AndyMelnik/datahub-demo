@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from './ui/Card';
 
 interface FilterControlsProps {
   groups: string[];
@@ -22,13 +23,21 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   const hasActiveFilters = selectedGroup !== 'all' || selectedDepartment !== 'all';
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 mb-6">
+    <Card className="mb-6 p-6">
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-800">Filters</h3>
+        <h3 
+          className="text-lg font-semibold"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          Filters
+        </h3>
         {hasActiveFilters && (
           <button
             onClick={onResetFilters}
-            className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center"
+            className="text-sm font-medium flex items-center transition-colors"
+            style={{ color: 'var(--primary)' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--primary-hover)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--primary)'}
           >
             <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

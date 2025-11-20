@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from './ui/Card';
 import type { ExceptionVehicle } from '../types/fleet';
 
 interface ExceptionTableProps {
@@ -33,12 +34,17 @@ const getReasonBadgeColor = (reason: string): string => {
 
 export const ExceptionTable: React.FC<ExceptionTableProps> = ({ vehicles, title }) => {
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 
+        className="text-lg font-semibold mb-6"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        {title}
+      </h3>
       <div className="overflow-x-auto">
         <div className="max-h-96 overflow-y-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 sticky top-0">
+          <table className="min-w-full divide-y" style={{ borderColor: 'var(--border)' }}>
+            <thead className="sticky top-0" style={{ background: 'var(--surface-2)' }}>
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Vehicle

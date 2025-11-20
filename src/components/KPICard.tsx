@@ -1,4 +1,5 @@
 import React from 'react';
+import { Card } from './ui/Card';
 
 interface KPICardProps {
   title: string;
@@ -10,22 +11,37 @@ interface KPICardProps {
   format?: 'number' | 'percentage' | 'decimal';
 }
 
-const colorClasses = {
-  blue: 'bg-blue-50 border-blue-200 text-blue-700',
-  green: 'bg-green-50 border-green-200 text-green-700',
-  red: 'bg-red-50 border-red-200 text-red-700',
-  yellow: 'bg-yellow-50 border-yellow-200 text-yellow-700',
-  purple: 'bg-purple-50 border-purple-200 text-purple-700',
-  gray: 'bg-gray-50 border-gray-200 text-gray-700',
-};
-
-const iconColorClasses = {
-  blue: 'text-blue-500',
-  green: 'text-green-500',
-  red: 'text-red-500',
-  yellow: 'text-yellow-500',
-  purple: 'text-purple-500',
-  gray: 'text-gray-500',
+const colorStyles = {
+  blue: {
+    bg: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+    text: '#1e40af',
+    icon: '#3b82f6',
+  },
+  green: {
+    bg: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)',
+    text: '#065f46',
+    icon: '#10b981',
+  },
+  red: {
+    bg: 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)',
+    text: '#991b1b',
+    icon: '#ef4444',
+  },
+  yellow: {
+    bg: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+    text: '#92400e',
+    icon: '#f59e0b',
+  },
+  purple: {
+    bg: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)',
+    text: '#5b21b6',
+    icon: '#8b5cf6',
+  },
+  gray: {
+    bg: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+    text: '#1e293b',
+    icon: '#64748b',
+  },
 };
 
 export const KPICard: React.FC<KPICardProps> = ({
@@ -49,25 +65,47 @@ export const KPICard: React.FC<KPICardProps> = ({
     }
   };
 
+  const styles = colorStyles[color];
+
   return (
-    <div className={`${colorClasses[color]} border-2 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow`}>
-      <div className="flex items-start justify-between">
+    <Card className="p-6 overflow-hidden relative">
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{ background: styles.bg }}
+      />
+      <div className="relative z-10 flex items-start justify-between">
         <div className="flex-1">
-          <p className="text-sm font-medium text-gray-600 mb-1">{title}</p>
-          <p className="text-3xl font-bold mb-1">
+          <p 
+            className="text-sm font-medium mb-2"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            {title}
+          </p>
+          <p 
+            className="text-4xl font-bold mb-1"
+            style={{ color: styles.text }}
+          >
             {formatValue(value)}
           </p>
           {subtitle && (
-            <p className="text-xs text-gray-500">{subtitle}</p>
+            <p 
+              className="text-xs mt-1"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              {subtitle}
+            </p>
           )}
         </div>
         {icon && (
-          <div className={`${iconColorClasses[color]} ml-4`}>
+          <div 
+            className="ml-4 p-3 rounded-xl bg-white/50"
+            style={{ color: styles.icon }}
+          >
             {icon}
           </div>
         )}
       </div>
-    </div>
+    </Card>
   );
 };
 

@@ -77,10 +77,26 @@ export const Dashboard: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: 'var(--surface-2)' }}
+      >
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600 text-lg">Loading fleet data...</p>
+          <div 
+            className="animate-spin rounded-full h-16 w-16 mx-auto mb-4"
+            style={{ 
+              borderWidth: '2px',
+              borderStyle: 'solid',
+              borderColor: 'var(--primary)',
+              borderTopColor: 'transparent'
+            }}
+          ></div>
+          <p 
+            className="text-lg"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            Loading fleet data...
+          </p>
         </div>
       </div>
     );
@@ -88,10 +104,24 @@ export const Dashboard: React.FC = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-6 max-w-md">
-          <h3 className="text-red-800 font-semibold text-lg mb-2">Error Loading Data</h3>
-          <p className="text-red-600">{error}</p>
+      <div 
+        className="min-h-screen flex items-center justify-center"
+        style={{ background: 'var(--surface-2)' }}
+      >
+        <div 
+          className="rounded-lg p-6 max-w-md"
+          style={{ 
+            background: 'var(--danger-light)', 
+            border: '1px solid var(--danger)' 
+          }}
+        >
+          <h3 
+            className="font-semibold text-lg mb-2"
+            style={{ color: 'var(--danger)' }}
+          >
+            Error Loading Data
+          </h3>
+          <p style={{ color: 'var(--danger)' }}>{error}</p>
         </div>
       </div>
     );
@@ -110,18 +140,43 @@ export const Dashboard: React.FC = () => {
   const zoneDistribution = getZoneDistribution(filteredVehicles);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen" style={{ background: 'var(--surface-2)' }}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
+      <header 
+        className="shadow-sm"
+        style={{ 
+          background: 'var(--surface-1)', 
+          borderBottom: '1px solid var(--border)' 
+        }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Fleet Management Dashboard</h1>
-              <p className="text-gray-600 mt-1">Real-time monitoring and analytics</p>
+              <h1 
+                className="text-3xl font-bold"
+                style={{ color: 'var(--text-primary)' }}
+              >
+                Fleet Management Dashboard
+              </h1>
+              <p 
+                className="mt-1"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Real-time monitoring and analytics
+              </p>
             </div>
             <div className="flex items-center space-x-2">
-              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
-                <span className="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+              <span 
+                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
+                style={{ 
+                  background: 'var(--success-light)', 
+                  color: 'var(--success)' 
+                }}
+              >
+                <span 
+                  className="w-2 h-2 rounded-full mr-2 animate-pulse"
+                  style={{ background: 'var(--success)' }}
+                ></span>
                 Live
               </span>
             </div>
@@ -157,8 +212,14 @@ export const Dashboard: React.FC = () => {
 
         {/* Results Summary */}
         {(selectedGroup !== 'all' || selectedDepartment !== 'all') && (
-          <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-blue-800">
+          <div 
+            className="mb-6 p-4 rounded-lg"
+            style={{ 
+              background: 'var(--info-light)', 
+              border: '1px solid var(--info)' 
+            }}
+          >
+            <p style={{ color: 'var(--info)' }}>
               <strong>Showing {filteredVehicles.length}</strong> of {vehicles.length} total vehicles
               {selectedGroup !== 'all' && ` in group "${selectedGroup}"`}
               {selectedDepartment !== 'all' && ` in department "${selectedDepartment}"`}
@@ -168,7 +229,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Executive Summary */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Executive Summary</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Executive Summary
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <KPICard
               title="Total Vehicles"
@@ -227,7 +293,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Fleet Condition Overview */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Fleet Condition Overview</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Fleet Condition Overview
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <StatusDistributionChart
               data={statusDistribution}
@@ -242,7 +313,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Operational Distribution */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Operational Distribution</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Operational Distribution
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <BarChartComponent
               data={speedDistribution}
@@ -270,7 +346,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Asset Group Breakdown */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Asset Group Breakdown</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Asset Group Breakdown
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
             <BarChartComponent
               data={departmentMetrics.map(d => ({ name: d.department, count: d.count }))}
@@ -303,7 +384,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Department Metrics Heatmap */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Department Performance Metrics</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Department Performance Metrics
+          </h2>
           <MetricsHeatmap
             data={departmentMetrics}
             title="Department Metrics Comparison"
@@ -312,7 +398,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Zone Distribution */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Geographic Distribution</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Geographic Distribution
+          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <BarChartComponent
               data={zoneDistribution.map(z => ({ name: z.status, count: z.count }))}
@@ -331,7 +422,12 @@ export const Dashboard: React.FC = () => {
 
         {/* Exception & Risk Monitoring */}
         <section className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Exception & Risk Monitoring</h2>
+          <h2 
+            className="text-2xl font-bold mb-6"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            Exception & Risk Monitoring
+          </h2>
           <ExceptionTable
             vehicles={exceptionVehicles}
             title="Vehicles Requiring Attention"
@@ -339,7 +435,10 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Footer */}
-        <footer className="mt-12 text-center text-gray-500 text-sm">
+        <footer 
+          className="mt-12 text-center text-sm"
+          style={{ color: 'var(--text-muted)' }}
+        >
           <p>Last updated: {new Date().toLocaleString()}</p>
           <p className="mt-1">Fleet Management Dashboard Demo - Powered by Navixy</p>
         </footer>

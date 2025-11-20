@@ -1,5 +1,6 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { Card } from './ui/Card';
 import type { StatusDistribution } from '../types/fleet';
 
 interface StatusDistributionChartProps {
@@ -32,8 +33,13 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
   };
 
   return (
-    <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-      <h3 className="text-lg font-semibold text-gray-800 mb-4">{title}</h3>
+    <Card className="p-6">
+      <h3 
+        className="text-lg font-semibold mb-6"
+        style={{ color: 'var(--text-primary)' }}
+      >
+        {title}
+      </h3>
       <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
@@ -55,11 +61,17 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
               `${value} vehicles (${props.payload.percentage.toFixed(1)}%)`,
               name
             ]}
+            contentStyle={{
+              background: 'var(--surface-1)',
+              border: '1px solid var(--border)',
+              borderRadius: '0.5rem',
+              boxShadow: 'var(--shadow-md)',
+            }}
           />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
-    </div>
+    </Card>
   );
 };
 

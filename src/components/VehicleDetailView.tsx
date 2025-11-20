@@ -1,5 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import { Card } from './ui/Card';
 import type { FleetVehicle } from '../types/fleet';
 
 interface VehicleDetailViewProps {
@@ -35,9 +36,12 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-lg border-2 border-indigo-200 overflow-hidden">
+    <div className="rounded-xl overflow-hidden" style={{ 
+      boxShadow: 'var(--shadow-lg)', 
+      border: '2px solid var(--primary)'
+    }}>
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-6">
+      <div className="gradient-primary text-white p-6">
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-2xl font-bold mb-2">{vehicle.object_label}</h2>
@@ -54,7 +58,7 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6" style={{ background: 'var(--surface-1)' }}>
         {/* Quick Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
