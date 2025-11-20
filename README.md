@@ -53,9 +53,20 @@ An interactive, real-time fleet management dashboard built with React, TypeScrip
 
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
-- **Styling**: Tailwind CSS
+- **Styling**: Tailwind CSS + CSS Variables (Modern Design System)
 - **Charts**: Recharts
 - **Data Processing**: PapaParse (CSV parsing)
+- **UI Components**: Custom Card components with modern design
+
+### Design System
+
+The dashboard uses a professional design system with:
+- **CSS Variables** for consistent theming (colors, surfaces, borders)
+- **Modern Card Components** with shadows and hover effects
+- **Gradient Backgrounds** for KPI cards
+- **Consistent Typography** and spacing
+- **Smooth Transitions** and animations
+- **Professional Color Palette** optimized for data visualization
 
 ## 📦 Installation
 
