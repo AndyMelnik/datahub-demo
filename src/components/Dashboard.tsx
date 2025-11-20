@@ -228,14 +228,14 @@ export const Dashboard: React.FC = () => {
         )}
 
         {/* Executive Summary */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Executive Summary
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <KPICard
               title="Total Vehicles"
               value={metrics.totalVehicles}
@@ -263,7 +263,7 @@ export const Dashboard: React.FC = () => {
             />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
             <KPICard
               title="Idle Vehicles"
               value={metrics.idleVehicles}
@@ -292,14 +292,14 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Fleet Condition Overview */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Fleet Condition Overview
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <StatusDistributionChart
               data={statusDistribution}
               title="Moving Status Distribution"
@@ -312,14 +312,14 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Operational Distribution */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Operational Distribution
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <BarChartComponent
               data={speedDistribution}
               title="Speed Distribution"
@@ -345,14 +345,14 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Asset Group Breakdown */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Asset Group Breakdown
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             <BarChartComponent
               data={departmentMetrics.map(d => ({ name: d.department, count: d.count }))}
               title="Vehicles by Department"
@@ -371,7 +371,7 @@ export const Dashboard: React.FC = () => {
             />
           </div>
           
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-4">
             <HorizontalBarChart
               data={groupMetrics}
               title="Connection Status by Group"
@@ -383,9 +383,9 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Department Metrics Heatmap */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Department Performance Metrics
@@ -397,14 +397,14 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Zone Distribution */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Geographic Distribution
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <BarChartComponent
               data={zoneDistribution.map(z => ({ name: z.status, count: z.count }))}
               title="Vehicles by Zone"
@@ -421,9 +421,9 @@ export const Dashboard: React.FC = () => {
         </section>
 
         {/* Exception & Risk Monitoring */}
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 
-            className="text-2xl font-bold mb-6"
+            className="text-xl font-bold mb-4"
             style={{ color: 'var(--text-primary)' }}
           >
             Exception & Risk Monitoring

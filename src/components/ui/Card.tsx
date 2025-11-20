@@ -13,8 +13,8 @@ export const Card: React.FC<CardProps> = ({ children, className = '', hover = tr
       style={{
         background: 'var(--surface-1)',
         border: '1px solid var(--border)',
-        borderRadius: '0.75rem',
-        padding: '1.5rem',
+        borderRadius: '0.5rem',
+        padding: '1rem',
         boxShadow: 'var(--shadow-sm)',
       }}
     >

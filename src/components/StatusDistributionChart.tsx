@@ -33,14 +33,14 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
   };
 
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <h3 
-        className="text-lg font-semibold mb-6"
+        className="text-base font-semibold mb-4"
         style={{ color: 'var(--text-primary)' }}
       >
         {title}
       </h3>
-      <ResponsiveContainer width="100%" height={300}>
+      <ResponsiveContainer width="100%" height={250}>
         <PieChart>
           <Pie
             data={chartData}

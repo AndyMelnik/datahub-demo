@@ -5,9 +5,9 @@
 :root {
   /* Surface colors */
   --surface-1: #ffffff;
-  --surface-2: #f8fafc;
-  --surface-3: #f1f5f9;
-  --surface-hover: #e2e8f0;
+  --surface-2: #e8f0f7;
+  --surface-3: #dbe7f0;
+  --surface-hover: #d0dfe9;
   
   /* Text colors */
   --text-primary: #0f172a;

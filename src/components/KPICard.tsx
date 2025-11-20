@@ -68,7 +68,7 @@ export const KPICard: React.FC<KPICardProps> = ({
   const styles = colorStyles[color];
 
   return (
-    <Card className="p-6 overflow-hidden relative">
+    <Card className="p-4 overflow-hidden relative">
       <div 
         className="absolute inset-0 opacity-30"
         style={{ background: styles.bg }}
@@ -76,13 +76,13 @@ export const KPICard: React.FC<KPICardProps> = ({
       <div className="relative z-10 flex items-start justify-between">
         <div className="flex-1">
           <p 
-            className="text-sm font-medium mb-2"
+            className="text-xs font-medium mb-1"
             style={{ color: 'var(--text-secondary)' }}
           >
             {title}
           </p>
           <p 
-            className="text-4xl font-bold mb-1"
+            className="text-2xl font-bold mb-1"
             style={{ color: styles.text }}
           >
             {formatValue(value)}
@@ -98,7 +98,7 @@ export const KPICard: React.FC<KPICardProps> = ({
         </div>
         {icon && (
           <div 
-            className="ml-4 p-3 rounded-xl bg-white/50"
+            className="ml-3 p-2 rounded-lg bg-white/50"
             style={{ color: styles.icon }}
           >
             {icon}

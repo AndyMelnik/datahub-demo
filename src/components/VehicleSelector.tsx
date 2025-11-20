@@ -37,9 +37,9 @@ export const VehicleSelector: React.FC<VehicleSelectorProps> = ({
   };
 
   return (
-    <Card className="mb-6 p-6">
+    <Card className="mb-4 p-4">
       <h3 
-        className="text-lg font-semibold mb-4"
+        className="text-base font-semibold mb-3"
         style={{ color: 'var(--text-primary)' }}
       >
         Vehicle / Driver Analysis

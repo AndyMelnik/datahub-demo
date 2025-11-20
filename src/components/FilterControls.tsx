@@ -23,10 +23,10 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   const hasActiveFilters = selectedGroup !== 'all' || selectedDepartment !== 'all';
 
   return (
-    <Card className="mb-6 p-6">
-      <div className="flex items-center justify-between mb-4">
+    <Card className="mb-4 p-4">
+      <div className="flex items-center justify-between mb-3">
         <h3 
-          className="text-lg font-semibold"
+          className="text-base font-semibold"
           style={{ color: 'var(--text-primary)' }}
         >
           Filters

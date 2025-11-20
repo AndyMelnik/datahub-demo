@@ -20,9 +20,9 @@ export const BarChartComponent: React.FC<BarChartComponentProps> = ({
   height = 300,
 }) => {
   return (
-    <Card className="p-6">
+    <Card className="p-4">
       <h3 
-        className="text-lg font-semibold mb-6"
+        className="text-base font-semibold mb-4"
         style={{ color: 'var(--text-primary)' }}
       >
         {title}
