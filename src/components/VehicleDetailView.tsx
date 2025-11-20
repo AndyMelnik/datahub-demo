@@ -21,16 +21,23 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
     return '🅿️';
   };
 
-  // Create gauge data for battery and fuel
+  // Create gauge data for battery (voltage) and fuel (percentage)
+  // Battery voltage scale: 11V-15V mapped to visual representation
+  const batteryPercentage = Math.min(100, Math.max(0, ((vehicle.battery_level - 11) / (15 - 11)) * 100));
+  
   const gaugeData = [
     {
-      name: 'Battery',
-      value: vehicle.battery_level,
-      color: vehicle.battery_level < 20 ? '#ef4444' : vehicle.battery_level < 50 ? '#f59e0b' : '#10b981',
+      name: 'Battery (V)',
+      value: batteryPercentage,
+      actualValue: vehicle.battery_level,
+      unit: 'V',
+      color: vehicle.battery_level < 12.0 ? '#ef4444' : vehicle.battery_level < 12.5 ? '#f59e0b' : '#10b981',
     },
     {
-      name: 'Fuel',
+      name: 'Fuel (%)',
       value: vehicle.fuel_level_percent,
+      actualValue: vehicle.fuel_level_percent,
+      unit: '%',
       color: vehicle.fuel_level_percent < 25 ? '#ef4444' : vehicle.fuel_level_percent < 50 ? '#f59e0b' : '#10b981',
     },
   ];
@@ -93,8 +100,13 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
             <BarChart data={gaugeData} layout="vertical">
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis type="number" domain={[0, 100]} />
-              <YAxis type="category" dataKey="name" width={80} />
-              <Tooltip formatter={(value) => `${value}%`} />
+              <YAxis type="category" dataKey="name" width={100} />
+              <Tooltip 
+                formatter={(value, name, props) => {
+                  const item = props.payload;
+                  return [`${item.actualValue.toFixed(1)}${item.unit}`, name];
+                }}
+              />
               <Bar dataKey="value" radius={[0, 8, 8, 0]}>
                 {gaugeData.map((entry, index) => (
                   <Cell key={`cell-${index}`} fill={entry.color} />
@@ -150,13 +162,13 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
                 <span className="font-medium text-gray-900">{vehicle.last_connect_formatted}</span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
-                <span className="text-gray-600">Battery Level:</span>
+                <span className="text-gray-600">Battery Voltage:</span>
                 <span className={`font-medium ${
-                  vehicle.battery_level < 20 ? 'text-red-600' : 
-                  vehicle.battery_level < 50 ? 'text-yellow-600' : 
+                  vehicle.battery_level < 12.0 ? 'text-red-600' : 
+                  vehicle.battery_level < 12.5 ? 'text-yellow-600' : 
                   'text-green-600'
                 }`}>
-                  {vehicle.battery_level.toFixed(1)}%
+                  {vehicle.battery_level.toFixed(2)}V
                 </span>
               </div>
               <div className="flex justify-between py-2 border-b border-gray-200">
@@ -187,14 +199,14 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
                 📡 Offline
               </span>
             )}
-            {vehicle.battery_level < 13 && (
+            {vehicle.battery_level < 12.0 && (
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
-                🔋 Critical Battery
+                🔋 Critical Battery ({vehicle.battery_level.toFixed(2)}V)
               </span>
             )}
-            {vehicle.battery_level >= 13 && vehicle.battery_level < 20 && (
+            {vehicle.battery_level >= 12.0 && vehicle.battery_level < 12.5 && (
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-yellow-100 text-yellow-800">
-                🔋 Low Battery
+                🔋 Low Battery ({vehicle.battery_level.toFixed(2)}V)
               </span>
             )}
             {vehicle.fuel_level_percent < 25 && (
@@ -204,7 +216,7 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
             )}
             {vehicle.speed <= 80 && 
              vehicle.connection_status !== 'offline' && 
-             vehicle.battery_level >= 20 && 
+             vehicle.battery_level >= 12.5 && 
              vehicle.fuel_level_percent >= 25 && (
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
                 ✅ All Systems Normal

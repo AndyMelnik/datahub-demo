@@ -11,7 +11,7 @@ export interface FleetVehicle {
   moving_status: 'moving' | 'stopped' | 'parked';
   connection_status: 'online' | 'offline' | 'idle';
   last_connect_formatted: string;
-  battery_level: number;
+  battery_level: number; // Voltage measurement (V)
   zone_label: string;
   group_label: string;
   department_label: string;

@@ -82,7 +82,7 @@ export const ExceptionTable: React.FC<ExceptionTableProps> = ({ vehicles, title 
                     {vehicle.speed} km/h
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
-                    {vehicle.battery_level.toFixed(1)}%
+                    {vehicle.battery_level.toFixed(2)}V
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">
                     {vehicle.fuel_level_percent}%

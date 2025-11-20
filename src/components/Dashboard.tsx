@@ -279,7 +279,7 @@ export const Dashboard: React.FC = () => {
             <KPICard
               title="Low Battery"
               value={metrics.lowBatteryCount}
-              subtitle="Needs attention"
+              subtitle="Below 12.5V"
               color="red"
             />
             <KPICard
@@ -336,7 +336,7 @@ export const Dashboard: React.FC = () => {
             />
             <BarChartComponent
               data={batteryDistribution}
-              title="Battery Level Distribution"
+              title="Battery Voltage Distribution"
               dataKey="count"
               xAxisKey="range"
               color="#f59e0b"

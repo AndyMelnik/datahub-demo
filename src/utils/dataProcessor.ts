@@ -11,8 +11,8 @@ import type {
 } from '../types/fleet';
 
 const SPEED_THRESHOLD = 80;
-const LOW_BATTERY_THRESHOLD = 20;
-const CRITICAL_BATTERY_THRESHOLD = 13;
+const LOW_BATTERY_THRESHOLD = 12.5; // Voltage: < 12.5V is low
+const CRITICAL_BATTERY_THRESHOLD = 12.0; // Voltage: < 12.0V is critical
 const LOW_FUEL_THRESHOLD = 25;
 
 export async function loadFleetData(csvPath: string): Promise<FleetVehicle[]> {
@@ -143,11 +143,12 @@ export function getFuelDistribution(vehicles: FleetVehicle[]): SpeedBucket[] {
 }
 
 export function getBatteryDistribution(vehicles: FleetVehicle[]): SpeedBucket[] {
+  // Battery voltage ranges for typical 12V vehicle systems
   const buckets = [
-    { range: '0-25%', min: 0, max: 25, count: 0 },
-    { range: '26-50%', min: 26, max: 50, count: 0 },
-    { range: '51-75%', min: 51, max: 75, count: 0 },
-    { range: '76-100%', min: 76, max: 100, count: 0 },
+    { range: '<11.8V Critical', min: 0, max: 11.8, count: 0 },
+    { range: '11.8-12.4V Low', min: 11.8, max: 12.4, count: 0 },
+    { range: '12.4-12.8V Good', min: 12.4, max: 12.8, count: 0 },
+    { range: '>12.8V Full', min: 12.8, max: 20, count: 0 },
   ];
 
   vehicles.forEach(vehicle => {
