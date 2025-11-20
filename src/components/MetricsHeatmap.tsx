@@ -98,7 +98,7 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
           </tbody>
         </table>
       </div>
-    </div>
+    </Card>
   );
 };
 
