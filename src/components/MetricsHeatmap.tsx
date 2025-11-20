@@ -27,9 +27,6 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
   
   const maxFuel = Math.max(...data.map(d => d.averageFuel));
   const minFuel = Math.min(...data.map(d => d.averageFuel));
-  
-  const maxBattery = Math.max(...data.map(d => d.averageBattery));
-  const minBattery = Math.min(...data.map(d => d.averageBattery));
 
   return (
     <div>
@@ -58,9 +55,6 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
                 Avg Fuel
               </th>
               <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Avg Battery
-              </th>
-              <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Offline Rate
               </th>
             </tr>
@@ -82,11 +76,6 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
                 <td className="px-4 py-3 whitespace-nowrap text-center">
                   <span className={`px-3 py-1 rounded text-sm font-medium ${getColorForValue(dept.averageFuel, maxFuel, minFuel)}`}>
                     {dept.averageFuel.toFixed(1)}%
-                  </span>
-                </td>
-                <td className="px-4 py-3 whitespace-nowrap text-center">
-                  <span className={`px-3 py-1 rounded text-sm font-medium ${getColorForValue(dept.averageBattery, maxBattery, minBattery)}`}>
-                    {dept.averageBattery.toFixed(1)}%
                   </span>
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap text-center">
