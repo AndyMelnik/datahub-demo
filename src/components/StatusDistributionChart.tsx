@@ -1,20 +1,19 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import { Card } from './ui/Card';
 import type { StatusDistribution } from '../types/fleet';
 
 interface StatusDistributionChartProps {
   data: StatusDistribution[];
-  title: string;
+  title?: string;
 }
 
 const COLORS = {
-  moving: '#10b981',
-  stopped: '#f59e0b',
-  parked: '#6b7280',
-  online: '#3b82f6',
-  offline: '#ef4444',
-  idle: '#f59e0b',
+  moving: '#60a5fa',    // light blue
+  stopped: '#94a3b8',   // slate grey
+  parked: '#64748b',    // darker slate grey
+  online: '#3b82f6',    // blue
+  offline: '#475569',   // dark slate
+  idle: '#94a3b8',      // slate grey
 };
 
 const getColor = (status: string): string => {
@@ -33,14 +32,16 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
   };
 
   return (
-    <Card className="p-4">
-      <h3 
-        className="text-base font-semibold mb-4"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        {title}
-      </h3>
-      <ResponsiveContainer width="100%" height={250}>
+    <div>
+      {title && (
+        <h3 
+          className="text-base font-semibold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {title}
+        </h3>
+      )}
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={chartData}
@@ -52,7 +53,7 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
             fill="#8884d8"
             dataKey="value"
           >
-            {chartData.map((entry, index) => (
+            {chartData.map((_entry, index) => (
               <Cell key={`cell-${index}`} fill={getColor(data[index].status)} />
             ))}
           </Pie>
@@ -71,7 +72,7 @@ export const StatusDistributionChart: React.FC<StatusDistributionChartProps> = (
           <Legend />
         </PieChart>
       </ResponsiveContainer>
-    </Card>
+    </div>
   );
 };
 

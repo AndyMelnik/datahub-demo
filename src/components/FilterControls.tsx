@@ -1,5 +1,4 @@
 import React from 'react';
-import { Card } from './ui/Card';
 
 interface FilterControlsProps {
   groups: string[];
@@ -23,7 +22,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
   const hasActiveFilters = selectedGroup !== 'all' || selectedDepartment !== 'all';
 
   return (
-    <Card className="mb-4 p-4">
+    <div>
       <div className="flex items-center justify-between mb-3">
         <h3 
           className="text-base font-semibold"
@@ -117,7 +116,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
           )}
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

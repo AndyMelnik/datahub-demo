@@ -4,7 +4,16 @@ An interactive, real-time fleet management dashboard built with React, TypeScrip
 
 ## 🚀 Features
 
-### 🎯 Interactive Controls (NEW!)
+### ✨ Dashboard Customization (NEW!)
+- **Drag & Drop Tiles**: Rearrange dashboard sections by dragging them to new positions
+- **Resize Tiles**: Adjust the size of any chart or section using corner resize handles
+- **Edit Mode**: Toggle edit mode with the "✏️ Edit Dashboard" button in the header
+- **Persistent Layout**: Your custom layout is saved automatically to browser localStorage
+- **Reset Layout**: Restore the default layout at any time
+- **Visual Feedback**: Dashed borders and drag handles appear in edit mode
+- **Smooth Animations**: Tiles animate smoothly when repositioning
+
+### 🎯 Interactive Controls
 - **Filter by Group**: Select specific vehicle groups to focus analysis
 - **Filter by Department**: Filter fleet by department (Delivery, Logistics, Drivers, Sales)
 - **Vehicle/Driver Search**: Quick search and selection of individual vehicles or drivers
@@ -54,9 +63,11 @@ An interactive, real-time fleet management dashboard built with React, TypeScrip
 - **Framework**: React 18 with TypeScript
 - **Build Tool**: Vite
 - **Styling**: Tailwind CSS + CSS Variables (Modern Design System)
-- **Charts**: Recharts
+- **Charts**: Recharts (responsive data visualization)
+- **Layout**: React Grid Layout (drag-and-drop, resizable tiles)
 - **Data Processing**: PapaParse (CSV parsing)
-- **UI Components**: Custom Card components with modern design
+- **UI Components**: Custom components with modern design
+- **State Management**: React hooks (useState, useMemo, useEffect)
 
 ### Design System
 
@@ -108,24 +119,34 @@ npm run preview
 navixy-lp/
 ├── src/
 │   ├── components/
-│   │   ├── Dashboard.tsx         # Main dashboard component
-│   │   ├── KPICard.tsx           # Key performance indicator cards
-│   │   ├── StatusDistributionChart.tsx  # Pie charts
-│   │   ├── BarChartComponent.tsx # Vertical bar charts
-│   │   ├── HorizontalBarChart.tsx # Horizontal stacked bars
-│   │   ├── ExceptionTable.tsx    # Alert/exception table
-│   │   └── MetricsHeatmap.tsx    # Department metrics heatmap
+│   │   ├── Dashboard.tsx              # Main dashboard component
+│   │   ├── DraggableDashboard.tsx     # Grid layout wrapper (drag & resize)
+│   │   ├── KPICard.tsx                # Key performance indicator cards
+│   │   ├── HorizontalBarChart.tsx     # Horizontal stacked bars
+│   │   ├── TopDistanceChart.tsx       # Top 5 distance traveled chart
+│   │   ├── MetricsHeatmap.tsx         # Department metrics heatmap
+│   │   ├── FilterControls.tsx         # Group/department filters
+│   │   ├── VehicleSelector.tsx        # Vehicle search and selection
+│   │   ├── VehicleDetailView.tsx      # Detailed vehicle information
+│   │   ├── EditableTitle.tsx          # In-place title editing
+│   │   └── ui/
+│   │       ├── Card.tsx               # Reusable card component
+│   │       └── Button.tsx             # Reusable button component
+│   ├── hooks/
+│   │   └── useDashboardConfig.ts      # Dashboard layout & config hook
+│   ├── styles/
+│   │   └── grid-layout.css            # Grid layout custom styles
 │   ├── types/
-│   │   └── fleet.ts              # TypeScript interfaces
+│   │   └── fleet.ts                   # TypeScript interfaces
 │   ├── utils/
-│   │   └── dataProcessor.ts      # Data processing functions
+│   │   └── dataProcessor.ts           # Data processing functions
 │   ├── App.tsx
 │   ├── main.tsx
 │   └── index.css
 ├── public/
-│   └── data_sample.csv           # Sample fleet data
-├── index.html                     # Dashboard entry point
-├── landing.html                   # Landing page with embedded dashboard
+│   └── data_sample.csv                # Sample fleet data
+├── index.html                          # Dashboard entry point
+├── landing.html                        # Landing page with embedded dashboard
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts
@@ -133,6 +154,31 @@ navixy-lp/
 ```
 
 ## 🎮 Using Interactive Features
+
+### Customizing Dashboard Layout
+
+1. **Enter Edit Mode**: Click the "✏️ Edit Dashboard" button in the top-right corner
+   - All tiles will show dashed borders
+   - Drag handles appear at the top of each tile
+   - Resize handles appear in all four corners
+
+2. **Drag Tiles**:
+   - Click and hold the drag handle (three horizontal lines) at the top of any tile
+   - Drag the tile to a new position
+   - Other tiles will automatically adjust to make room
+   - Release to drop the tile in the new position
+
+3. **Resize Tiles**:
+   - Hover over any corner of a tile in edit mode
+   - Click and drag the resize handle (corner indicators)
+   - Tiles can be resized both horizontally and vertically
+   - Minimum size constraints prevent tiles from becoming too small
+
+4. **Save Changes**: Click "💾 Save & Exit" to exit edit mode
+   - Your layout is automatically saved to browser localStorage
+   - Layout persists across page reloads
+
+5. **Reset Layout**: Click "Reset Layout" in edit mode to restore the default configuration
 
 ### Filtering Data
 

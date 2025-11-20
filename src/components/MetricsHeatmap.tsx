@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card } from './ui/Card';
 import type { DepartmentMetrics } from '../types/fleet';
 
 interface MetricsHeatmapProps {
   data: DepartmentMetrics[];
-  title: string;
+  title?: string;
 }
 
 const getColorForValue = (value: number, max: number, min: number): string => {
@@ -33,13 +32,15 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
   const minBattery = Math.min(...data.map(d => d.averageBattery));
 
   return (
-    <Card className="p-4">
-      <h3 
-        className="text-base font-semibold mb-4"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        {title}
-      </h3>
+    <div>
+      {title && (
+        <h3 
+          className="text-base font-semibold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {title}
+        </h3>
+      )}
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y" style={{ borderColor: 'var(--border)' }}>
           <thead style={{ background: 'var(--surface-2)' }}>
@@ -98,7 +99,7 @@ export const MetricsHeatmap: React.FC<MetricsHeatmapProps> = ({ data, title }) =
           </tbody>
         </table>
       </div>
-    </Card>
+    </div>
   );
 };
 

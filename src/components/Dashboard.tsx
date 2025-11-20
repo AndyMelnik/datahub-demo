@@ -5,8 +5,7 @@ import { BarChartComponent } from './BarChartComponent';
 import { HorizontalBarChart } from './HorizontalBarChart';
 import { ExceptionTable } from './ExceptionTable';
 import { MetricsHeatmap } from './MetricsHeatmap';
-import { FilterControls } from './FilterControls';
-import { VehicleSelector } from './VehicleSelector';
+import { TopDistanceChart } from './TopDistanceChart';
 import { VehicleDetailView } from './VehicleDetailView';
 import { EditableTitle } from './EditableTitle';
 import { Button } from './ui/Button';
@@ -163,7 +162,7 @@ export const Dashboard: React.FC = () => {
           borderBottom: '1px solid var(--border)' 
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 
@@ -201,65 +200,17 @@ export const Dashboard: React.FC = () => {
               >
                 {isEditMode ? '💾 Save & Exit' : '✏️ Edit Dashboard'}
               </Button>
-              <span 
-                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium"
-                style={{ 
-                  background: 'var(--success-light)', 
-                  color: 'var(--success)' 
-                }}
-              >
-                <span 
-                  className="w-2 h-2 rounded-full mr-2 animate-pulse"
-                  style={{ background: 'var(--success)' }}
-                ></span>
-                Live
-              </span>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Filter Controls */}
-        <FilterControls
-          groups={availableGroups}
-          departments={availableDepartments}
-          selectedGroup={selectedGroup}
-          selectedDepartment={selectedDepartment}
-          onGroupChange={setSelectedGroup}
-          onDepartmentChange={setSelectedDepartment}
-          onResetFilters={handleResetFilters}
-        />
-
-        {/* Vehicle Selector */}
-        <VehicleSelector
-          vehicles={filteredVehicles}
-          onVehicleSelect={setSelectedVehicle}
-          selectedVehicle={selectedVehicle}
-        />
-
+      <div className="mx-auto px-6 py-8">
         {/* Vehicle Detail View */}
         {selectedVehicle && (
-          <section className="mb-8">
+          <section className="mb-6">
             <VehicleDetailView vehicle={selectedVehicle} />
           </section>
-        )}
-
-        {/* Results Summary */}
-        {(selectedGroup !== 'all' || selectedDepartment !== 'all') && (
-          <div 
-            className="mb-6 p-4 rounded-lg"
-            style={{ 
-              background: 'var(--info-light)', 
-              border: '1px solid var(--info)' 
-            }}
-          >
-            <p style={{ color: 'var(--info)' }}>
-              <strong>Showing {filteredVehicles.length}</strong> of {vehicles.length} total vehicles
-              {selectedGroup !== 'all' && ` in group "${selectedGroup}"`}
-              {selectedDepartment !== 'all' && ` in department "${selectedDepartment}"`}
-            </p>
-          </div>
         )}
 
         <DraggableDashboard
@@ -267,9 +218,9 @@ export const Dashboard: React.FC = () => {
           onLayoutChange={handleLayoutChange}
           isEditMode={isEditMode}
         >
-        {/* Executive Summary */}
-        {config.charts['executive-summary']?.visible !== false && (
-        <div key="executive-summary" className={isEditMode ? 'react-grid-item--editing' : ''}>
+        {/* Filters & Controls */}
+        {config.charts['filters']?.visible !== false && (
+        <div key="filters" className={isEditMode ? 'react-grid-item--editing' : ''}>
           <div className="h-full p-4 overflow-auto">
             {isEditMode && (
               <div className="drag-handle mb-2">
@@ -281,72 +232,306 @@ export const Dashboard: React.FC = () => {
                 <span className="text-xs text-gray-500">Drag to move</span>
               </div>
             )}
-            <EditableTitle
-              value={config.charts['executive-summary']?.title || 'Executive Summary'}
-              onChange={(title) => updateChartTitle('executive-summary', title)}
-              isEditing={isEditMode}
-              className="text-xl font-bold mb-4"
-            />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div>
+              <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
+                Filters
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Filter by Group
+                  </label>
+                  <select
+                    value={selectedGroup}
+                    onChange={(e) => setSelectedGroup(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border"
+                    style={{
+                      background: 'var(--surface-1)',
+                      borderColor: 'var(--border)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    <option value="all">All Groups</option>
+                    {availableGroups.map((group) => (
+                      <option key={group} value={group}>
+                        {group}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Filter by Department
+                  </label>
+                  <select
+                    value={selectedDepartment}
+                    onChange={(e) => setSelectedDepartment(e.target.value)}
+                    className="w-full px-3 py-2 rounded-lg border"
+                    style={{
+                      background: 'var(--surface-1)',
+                      borderColor: 'var(--border)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    <option value="all">All Departments</option>
+                    {availableDepartments.map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Vehicle / Driver Analysis
+                  </label>
+                  <select
+                    value={selectedVehicle?.object_id || ''}
+                    onChange={(e) => {
+                      const vehicleId = e.target.value;
+                      if (vehicleId) {
+                        const vehicle = filteredVehicles.find(v => v.object_id.toString() === vehicleId);
+                        setSelectedVehicle(vehicle || null);
+                      } else {
+                        setSelectedVehicle(null);
+                      }
+                    }}
+                    className="w-full px-3 py-2 rounded-lg border"
+                    style={{
+                      background: 'var(--surface-1)',
+                      borderColor: 'var(--border)',
+                      color: 'var(--text-primary)',
+                    }}
+                  >
+                    <option value="">Select Vehicle/Driver</option>
+                    {filteredVehicles.map((vehicle) => (
+                      <option key={vehicle.object_id} value={vehicle.object_id}>
+                        {vehicle.object_label} - {vehicle.first_name} {vehicle.last_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              
+              {(selectedGroup !== 'all' || selectedDepartment !== 'all' || selectedVehicle) && (
+                <button
+                  onClick={() => {
+                    handleResetFilters();
+                    setSelectedVehicle(null);
+                  }}
+                  className="mt-4 px-4 py-2 rounded-lg text-sm font-medium"
+                  style={{
+                    background: 'var(--surface-2)',
+                    color: 'var(--text-secondary)',
+                    border: '1px solid var(--border)',
+                  }}
+                >
+                  Reset All Filters
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Total Vehicles */}
+        {config.charts['kpi-total-vehicles']?.visible !== false && (
+        <div key="kpi-total-vehicles" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Total Vehicles"
               value={metrics.totalVehicles}
               subtitle="In fleet"
               color="blue"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Vehicles Moving */}
+        {config.charts['kpi-vehicles-moving']?.visible !== false && (
+        <div key="kpi-vehicles-moving" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Vehicles Moving"
               value={metrics.movingVehicles}
               subtitle={`${((metrics.movingVehicles / metrics.totalVehicles) * 100).toFixed(1)}% of fleet`}
-              color="green"
+              color="blue"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Online Status */}
+        {config.charts['kpi-online-status']?.visible !== false && (
+        <div key="kpi-online-status" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Online Status"
               value={metrics.onlineVehicles}
               subtitle={`${metrics.offlineVehicles} offline`}
               color="blue"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Average Speed */}
+        {config.charts['kpi-average-speed']?.visible !== false && (
+        <div key="kpi-average-speed" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Average Speed"
               value={metrics.averageSpeed}
               subtitle="Moving vehicles"
-              color="purple"
+              color="blue"
               format="decimal"
             />
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mt-3">
+        </div>
+        )}
+
+        {/* KPI: Idle Vehicles */}
+        {config.charts['kpi-idle-vehicles']?.visible !== false && (
+        <div key="kpi-idle-vehicles" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Idle Vehicles"
               value={metrics.idleVehicles}
               subtitle="Stopped status"
-              color="yellow"
+              color="gray"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Low Fuel */}
+        {config.charts['kpi-low-fuel']?.visible !== false && (
+        <div key="kpi-low-fuel" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Low Fuel"
               value={metrics.lowFuelCount}
               subtitle="Below 25%"
-              color="red"
+              color="gray"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Low Battery */}
+        {config.charts['kpi-low-battery']?.visible !== false && (
+        <div key="kpi-low-battery" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Low Battery"
               value={metrics.lowBatteryCount}
               subtitle="Below 12.5V"
-              color="red"
+              color="gray"
             />
+          </div>
+        </div>
+        )}
+
+        {/* KPI: Overspeeding */}
+        {config.charts['kpi-overspeeding']?.visible !== false && (
+        <div key="kpi-overspeeding" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
             <KPICard
               title="Overspeeding"
               value={metrics.overspeedingCount}
               subtitle="Above threshold"
-              color="red"
+              color="gray"
             />
           </div>
-        </section>
+        </div>
         )}
 
-        {/* Fleet Condition Overview */}
-        {config.charts['fleet-condition']?.visible !== false && (
-        <div key="fleet-condition" className={isEditMode ? 'react-grid-item--editing' : ''}>
+        {/* Moving Status Distribution */}
+        {config.charts['moving-status']?.visible !== false && (
+        <div key="moving-status" className={isEditMode ? 'react-grid-item--editing' : ''}>
           <div className="h-full p-4 overflow-auto">
             {isEditMode && (
               <div className="drag-handle mb-2">
@@ -359,28 +544,50 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
             <EditableTitle
-              value={config.charts['fleet-condition']?.title || 'Fleet Condition Overview'}
-              onChange={(title) => updateChartTitle('fleet-condition', title)}
+              value={config.charts['moving-status']?.title || 'Moving Status Distribution'}
+              onChange={(title) => updateChartTitle('moving-status', title)}
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <StatusDistributionChart
               data={statusDistribution}
-              title="Moving Status Distribution"
+              title=""
+            />
+          </div>
+        </div>
+        )}
+
+        {/* Connection Status Distribution */}
+        {config.charts['connection-status']?.visible !== false && (
+        <div key="connection-status" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['connection-status']?.title || 'Connection Status Distribution'}
+              onChange={(title) => updateChartTitle('connection-status', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
             />
             <StatusDistributionChart
               data={connectionDistribution}
-              title="Connection Status Distribution"
+              title=""
             />
-          </div>
           </div>
         </div>
         )}
 
-        {/* Operational Distribution */}
-        {config.charts['operational-dist']?.visible !== false && (
-        <div key="operational-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
+        {/* Speed Distribution */}
+        {config.charts['speed-dist']?.visible !== false && (
+        <div key="speed-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
           <div className="h-full p-4 overflow-auto">
             {isEditMode && (
               <div className="drag-handle mb-2">
@@ -393,41 +600,56 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
             <EditableTitle
-              value={config.charts['operational-dist']?.title || 'Operational Distribution'}
-              onChange={(title) => updateChartTitle('operational-dist', title)}
+              value={config.charts['speed-dist']?.title || 'Speed Distribution'}
+              onChange={(title) => updateChartTitle('speed-dist', title)}
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <BarChartComponent
               data={speedDistribution}
-              title="Speed Distribution"
+              title=""
               dataKey="count"
               xAxisKey="range"
-              color="#3b82f6"
+              color="#60a5fa"
+            />
+          </div>
+        </div>
+        )}
+
+        {/* Fuel Level Distribution */}
+        {config.charts['fuel-dist']?.visible !== false && (
+        <div key="fuel-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['fuel-dist']?.title || 'Fuel Level Distribution'}
+              onChange={(title) => updateChartTitle('fuel-dist', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
             />
             <BarChartComponent
               data={fuelDistribution}
-              title="Fuel Level Distribution"
+              title=""
               dataKey="count"
               xAxisKey="range"
-              color="#10b981"
+              color="#94a3b8"
             />
-            <BarChartComponent
-              data={batteryDistribution}
-              title="Battery Voltage Distribution"
-              dataKey="count"
-              xAxisKey="range"
-              color="#f59e0b"
-            />
-          </div>
           </div>
         </div>
         )}
 
-        {/* Asset Group Breakdown */}
-        {config.charts['asset-group']?.visible !== false && (
-        <div key="asset-group" className={isEditMode ? 'react-grid-item--editing' : ''}>
+        {/* Battery Voltage Distribution */}
+        {config.charts['battery-dist']?.visible !== false && (
+        <div key="battery-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
           <div className="h-full p-4 overflow-auto">
             {isEditMode && (
               <div className="drag-handle mb-2">
@@ -440,39 +662,113 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
             <EditableTitle
-              value={config.charts['asset-group']?.title || 'Asset Group Breakdown'}
-              onChange={(title) => updateChartTitle('asset-group', title)}
+              value={config.charts['battery-dist']?.title || 'Battery Voltage Distribution'}
+              onChange={(title) => updateChartTitle('battery-dist', title)}
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+            <BarChartComponent
+              data={batteryDistribution}
+              title=""
+              dataKey="count"
+              xAxisKey="range"
+              color="#64748b"
+            />
+          </div>
+        </div>
+        )}
+
+        {/* Vehicles by Department */}
+        {config.charts['vehicles-by-dept']?.visible !== false && (
+        <div key="vehicles-by-dept" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['vehicles-by-dept']?.title || 'Vehicles by Department'}
+              onChange={(title) => updateChartTitle('vehicles-by-dept', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
             <BarChartComponent
               data={departmentMetrics.map(d => ({ name: d.department, count: d.count }))}
-              title="Vehicles by Department"
+              title=""
               dataKey="count"
               xAxisKey="name"
-              color="#8b5cf6"
-              height={350}
+              color="#60a5fa"
+              height={400}
+            />
+          </div>
+        </div>
+        )}
+
+        {/* Top 10 Vehicle Models */}
+        {config.charts['top-models']?.visible !== false && (
+        <div key="top-models" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['top-models']?.title || 'Top 10 Vehicle Models'}
+              onChange={(title) => updateChartTitle('top-models', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
             />
             <BarChartComponent
               data={modelDistribution}
-              title="Top 10 Vehicle Models"
+              title=""
               dataKey="count"
               xAxisKey="model"
-              color="#06b6d4"
-              height={350}
+              color="#94a3b8"
+              height={400}
             />
           </div>
-          
-          <div className="grid grid-cols-1 gap-4">
+        </div>
+        )}
+
+        {/* Connection Status by Group */}
+        {config.charts['connection-by-group']?.visible !== false && (
+        <div key="connection-by-group" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['connection-by-group']?.title || 'Connection Status by Group'}
+              onChange={(title) => updateChartTitle('connection-by-group', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
             <HorizontalBarChart
               data={groupMetrics}
-              title="Connection Status by Group"
+              title=""
               dataKeys={['online', 'offline', 'idle']}
               yAxisKey="group"
-              colors={['#10b981', '#ef4444', '#f59e0b']}
+              colors={['#60a5fa', '#64748b', '#94a3b8']}
             />
-          </div>
           </div>
         </div>
         )}
@@ -497,17 +793,17 @@ export const Dashboard: React.FC = () => {
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <MetricsHeatmap
-            data={departmentMetrics}
-            title="Department Metrics Comparison"
-          />
+            <MetricsHeatmap
+              data={departmentMetrics}
+              title="Department Metrics Comparison"
+            />
           </div>
         </div>
         )}
 
-        {/* Zone Distribution */}
-        {config.charts['geo-dist']?.visible !== false && (
-        <div key="geo-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
+        {/* Vehicles by Zone */}
+        {config.charts['vehicles-by-zone']?.visible !== false && (
+        <div key="vehicles-by-zone" className={isEditMode ? 'react-grid-item--editing' : ''}>
           <div className="h-full p-4 overflow-auto">
             {isEditMode && (
               <div className="drag-handle mb-2">
@@ -520,25 +816,47 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
             <EditableTitle
-              value={config.charts['geo-dist']?.title || 'Geographic Distribution'}
-              onChange={(title) => updateChartTitle('geo-dist', title)}
+              value={config.charts['vehicles-by-zone']?.title || 'Vehicles by Zone'}
+              onChange={(title) => updateChartTitle('vehicles-by-zone', title)}
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <BarChartComponent
               data={zoneDistribution.map(z => ({ name: z.status, count: z.count }))}
-              title="Vehicles by Zone"
+              title=""
               dataKey="count"
               xAxisKey="name"
-              color="#ec4899"
-              height={350}
-            />
-            <StatusDistributionChart
-              data={zoneDistribution}
-              title="Zone Distribution"
+              color="#64748b"
+              height={400}
             />
           </div>
+        </div>
+        )}
+
+        {/* TOP 5 Distance Traveled */}
+        {config.charts['top-distance']?.visible !== false && (
+        <div key="top-distance" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['top-distance']?.title || 'TOP 5 Distance Traveled'}
+              onChange={(title) => updateChartTitle('top-distance', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
+            <TopDistanceChart
+              vehicles={filteredVehicles}
+              title=""
+            />
           </div>
         </div>
         )}
@@ -563,10 +881,10 @@ export const Dashboard: React.FC = () => {
               isEditing={isEditMode}
               className="text-xl font-bold mb-4"
             />
-          <ExceptionTable
-            vehicles={exceptionVehicles}
-            title="Vehicles Requiring Attention"
-          />
+            <ExceptionTable
+              vehicles={exceptionVehicles}
+              title="Vehicles Requiring Attention"
+            />
           </div>
         </div>
         )}
@@ -574,7 +892,7 @@ export const Dashboard: React.FC = () => {
 
         {/* Footer */}
         <footer 
-          className="mt-12 text-center text-sm"
+          className="mt-8 text-center text-sm"
           style={{ color: 'var(--text-muted)' }}
         >
           <p>Last updated: {new Date().toLocaleString()}</p>
@@ -584,4 +902,3 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
-

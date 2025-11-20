@@ -1,10 +1,9 @@
 import React from 'react';
-import { Card } from './ui/Card';
 import type { ExceptionVehicle } from '../types/fleet';
 
 interface ExceptionTableProps {
   vehicles: ExceptionVehicle[];
-  title: string;
+  title?: string;
 }
 
 const getSeverityColor = (reasons: string[]): string => {
@@ -34,13 +33,15 @@ const getReasonBadgeColor = (reason: string): string => {
 
 export const ExceptionTable: React.FC<ExceptionTableProps> = ({ vehicles, title }) => {
   return (
-    <Card className="p-4">
-      <h3 
-        className="text-base font-semibold mb-4"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        {title}
-      </h3>
+    <div>
+      {title && (
+        <h3 
+          className="text-base font-semibold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {title}
+        </h3>
+      )}
       <div className="overflow-x-auto">
         <div className="max-h-96 overflow-y-auto">
           <table className="min-w-full divide-y" style={{ borderColor: 'var(--border)' }}>
@@ -119,7 +120,7 @@ export const ExceptionTable: React.FC<ExceptionTableProps> = ({ vehicles, title 
           No exceptions found. All vehicles operating normally.
         </div>
       )}
-    </Card>
+    </div>
   );
 };
 

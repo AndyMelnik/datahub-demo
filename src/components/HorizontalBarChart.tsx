@@ -1,10 +1,9 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
-import { Card } from './ui/Card';
 
 interface HorizontalBarChartProps {
   data: any[];
-  title: string;
+  title?: string;
   dataKeys: string[];
   yAxisKey: string;
   colors?: string[];
@@ -16,17 +15,19 @@ export const HorizontalBarChart: React.FC<HorizontalBarChartProps> = ({
   title,
   dataKeys,
   yAxisKey,
-  colors = ['#3b82f6', '#10b981', '#f59e0b'],
-  height = 400,
+  colors = ['#60a5fa', '#94a3b8', '#64748b'],
+  height = 260,
 }) => {
   return (
-    <Card className="p-4">
-      <h3 
-        className="text-base font-semibold mb-4"
-        style={{ color: 'var(--text-primary)' }}
-      >
-        {title}
-      </h3>
+    <div>
+      {title && (
+        <h3 
+          className="text-base font-semibold mb-4"
+          style={{ color: 'var(--text-primary)' }}
+        >
+          {title}
+        </h3>
+      )}
       <ResponsiveContainer width="100%" height={height}>
         <BarChart 
           data={data} 
@@ -62,7 +63,7 @@ export const HorizontalBarChart: React.FC<HorizontalBarChartProps> = ({
           ))}
         </BarChart>
       </ResponsiveContainer>
-    </Card>
+    </div>
   );
 };
 

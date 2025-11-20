@@ -2,13 +2,16 @@
 .react-grid-layout {
   position: relative;
   transition: height 200ms ease;
+  width: 100% !important;
 }
 
 .react-grid-item {
   transition: all 200ms ease;
   transition-property: left, top, width, height;
   background: var(--surface-1);
-  border-radius: 0.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
 }
 
 .react-grid-item.cssTransforms {

@@ -1,7 +1,9 @@
 import React from 'react';
-import GridLayout, { Layout } from 'react-grid-layout';
+import GridLayout, { Layout, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import '../styles/grid-layout.css';
+
+const ResponsiveGridLayout = WidthProvider(GridLayout);
 
 interface DraggableDashboardProps {
   layout: Layout[];
@@ -17,12 +19,11 @@ export const DraggableDashboard: React.FC<DraggableDashboardProps> = ({
   children,
 }) => {
   return (
-    <GridLayout
+    <ResponsiveGridLayout
       className="layout"
       layout={layout}
       cols={12}
       rowHeight={80}
-      width={1200}
       isDraggable={isEditMode}
       isResizable={isEditMode}
       onLayoutChange={onLayoutChange}
@@ -30,9 +31,11 @@ export const DraggableDashboard: React.FC<DraggableDashboardProps> = ({
       resizeHandles={['se', 'sw', 'ne', 'nw']}
       compactType="vertical"
       preventCollision={false}
+      margin={[16, 16]}
+      containerPadding={[0, 0]}
     >
       {children}
-    </GridLayout>
+    </ResponsiveGridLayout>
   );
 };
 
