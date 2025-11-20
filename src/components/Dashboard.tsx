@@ -10,7 +10,9 @@ import { VehicleSelector } from './VehicleSelector';
 import { VehicleDetailView } from './VehicleDetailView';
 import { EditableTitle } from './EditableTitle';
 import { Button } from './ui/Button';
+import { DraggableDashboard } from './DraggableDashboard';
 import { useDashboardConfig } from '../hooks/useDashboardConfig';
+import type { Layout } from 'react-grid-layout';
 import {
   loadFleetData,
   calculateFleetMetrics,
@@ -36,7 +38,13 @@ export const Dashboard: React.FC = () => {
   const [selectedVehicle, setSelectedVehicle] = useState<FleetVehicle | null>(null);
   const [isEditMode, setIsEditMode] = useState(false);
   
-  const { config, updateChartTitle, resetConfig } = useDashboardConfig();
+  const { config, updateChartTitle, updateLayout, resetConfig } = useDashboardConfig();
+
+  const handleLayoutChange = (newLayout: Layout[]) => {
+    if (isEditMode) {
+      updateLayout(newLayout);
+    }
+  };
 
   useEffect(() => {
     const loadData = async () => {
@@ -254,15 +262,31 @@ export const Dashboard: React.FC = () => {
           </div>
         )}
 
+        <DraggableDashboard
+          layout={config.layout}
+          onLayoutChange={handleLayoutChange}
+          isEditMode={isEditMode}
+        >
         {/* Executive Summary */}
         {config.charts['executive-summary']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['executive-summary']?.title || 'Executive Summary'}
-            onChange={(title) => updateChartTitle('executive-summary', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="executive-summary" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['executive-summary']?.title || 'Executive Summary'}
+              onChange={(title) => updateChartTitle('executive-summary', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
             <KPICard
               title="Total Vehicles"
@@ -322,13 +346,24 @@ export const Dashboard: React.FC = () => {
 
         {/* Fleet Condition Overview */}
         {config.charts['fleet-condition']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['fleet-condition']?.title || 'Fleet Condition Overview'}
-            onChange={(title) => updateChartTitle('fleet-condition', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="fleet-condition" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['fleet-condition']?.title || 'Fleet Condition Overview'}
+              onChange={(title) => updateChartTitle('fleet-condition', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <StatusDistributionChart
               data={statusDistribution}
@@ -339,18 +374,30 @@ export const Dashboard: React.FC = () => {
               title="Connection Status Distribution"
             />
           </div>
-        </section>
+          </div>
+        </div>
         )}
 
         {/* Operational Distribution */}
         {config.charts['operational-dist']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['operational-dist']?.title || 'Operational Distribution'}
-            onChange={(title) => updateChartTitle('operational-dist', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="operational-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['operational-dist']?.title || 'Operational Distribution'}
+              onChange={(title) => updateChartTitle('operational-dist', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <BarChartComponent
               data={speedDistribution}
@@ -374,18 +421,30 @@ export const Dashboard: React.FC = () => {
               color="#f59e0b"
             />
           </div>
-        </section>
+          </div>
+        </div>
         )}
 
         {/* Asset Group Breakdown */}
         {config.charts['asset-group']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['asset-group']?.title || 'Asset Group Breakdown'}
-            onChange={(title) => updateChartTitle('asset-group', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="asset-group" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['asset-group']?.title || 'Asset Group Breakdown'}
+              onChange={(title) => updateChartTitle('asset-group', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
             <BarChartComponent
               data={departmentMetrics.map(d => ({ name: d.department, count: d.count }))}
@@ -414,34 +473,58 @@ export const Dashboard: React.FC = () => {
               colors={['#10b981', '#ef4444', '#f59e0b']}
             />
           </div>
-        </section>
+          </div>
+        </div>
         )}
 
         {/* Department Metrics Heatmap */}
         {config.charts['dept-metrics']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['dept-metrics']?.title || 'Department Performance Metrics'}
-            onChange={(title) => updateChartTitle('dept-metrics', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="dept-metrics" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['dept-metrics']?.title || 'Department Performance Metrics'}
+              onChange={(title) => updateChartTitle('dept-metrics', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <MetricsHeatmap
             data={departmentMetrics}
             title="Department Metrics Comparison"
           />
-        </section>
+          </div>
+        </div>
         )}
 
         {/* Zone Distribution */}
         {config.charts['geo-dist']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['geo-dist']?.title || 'Geographic Distribution'}
-            onChange={(title) => updateChartTitle('geo-dist', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="geo-dist" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['geo-dist']?.title || 'Geographic Distribution'}
+              onChange={(title) => updateChartTitle('geo-dist', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <BarChartComponent
               data={zoneDistribution.map(z => ({ name: z.status, count: z.count }))}
@@ -456,24 +539,38 @@ export const Dashboard: React.FC = () => {
               title="Zone Distribution"
             />
           </div>
-        </section>
+          </div>
+        </div>
         )}
 
         {/* Exception & Risk Monitoring */}
         {config.charts['exceptions']?.visible !== false && (
-        <section className="mb-6">
-          <EditableTitle
-            value={config.charts['exceptions']?.title || 'Exception & Risk Monitoring'}
-            onChange={(title) => updateChartTitle('exceptions', title)}
-            isEditing={isEditMode}
-            className="text-xl font-bold mb-4"
-          />
+        <div key="exceptions" className={isEditMode ? 'react-grid-item--editing' : ''}>
+          <div className="h-full p-4 overflow-auto">
+            {isEditMode && (
+              <div className="drag-handle mb-2">
+                <div className="drag-handle-icon">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <span className="text-xs text-gray-500">Drag to move</span>
+              </div>
+            )}
+            <EditableTitle
+              value={config.charts['exceptions']?.title || 'Exception & Risk Monitoring'}
+              onChange={(title) => updateChartTitle('exceptions', title)}
+              isEditing={isEditMode}
+              className="text-xl font-bold mb-4"
+            />
           <ExceptionTable
             vehicles={exceptionVehicles}
             title="Vehicles Requiring Attention"
           />
-        </section>
+          </div>
+        </div>
         )}
+        </DraggableDashboard>
 
         {/* Footer */}
         <footer 

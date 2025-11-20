@@ -1,5 +1,15 @@
 import { useState, useEffect } from 'react';
 
+export interface LayoutItem {
+  i: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  minW?: number;
+  minH?: number;
+}
+
 export interface ChartConfig {
   id: string;
   title: string;
@@ -9,6 +19,7 @@ export interface ChartConfig {
 
 export interface DashboardConfig {
   charts: Record<string, ChartConfig>;
+  layout: LayoutItem[];
 }
 
 const DEFAULT_CONFIG: DashboardConfig = {
@@ -21,6 +32,15 @@ const DEFAULT_CONFIG: DashboardConfig = {
     'geo-dist': { id: 'geo-dist', title: 'Geographic Distribution', visible: true },
     'exceptions': { id: 'exceptions', title: 'Exception & Risk Monitoring', visible: true },
   },
+  layout: [
+    { i: 'executive-summary', x: 0, y: 0, w: 12, h: 4, minW: 6, minH: 3 },
+    { i: 'fleet-condition', x: 0, y: 4, w: 12, h: 3, minW: 6, minH: 2 },
+    { i: 'operational-dist', x: 0, y: 7, w: 12, h: 3, minW: 6, minH: 2 },
+    { i: 'asset-group', x: 0, y: 10, w: 12, h: 4, minW: 6, minH: 3 },
+    { i: 'dept-metrics', x: 0, y: 14, w: 12, h: 3, minW: 6, minH: 2 },
+    { i: 'geo-dist', x: 0, y: 17, w: 12, h: 3, minW: 6, minH: 2 },
+    { i: 'exceptions', x: 0, y: 20, w: 12, h: 4, minW: 6, minH: 2 },
+  ],
 };
 
 const STORAGE_KEY = 'fleet-dashboard-config';
@@ -72,6 +92,13 @@ export const useDashboardConfig = () => {
     }));
   };
 
+  const updateLayout = (newLayout: LayoutItem[]) => {
+    setConfig((prev) => ({
+      ...prev,
+      layout: newLayout,
+    }));
+  };
+
   const resetConfig = () => {
     setConfig(DEFAULT_CONFIG);
   };
@@ -80,6 +107,7 @@ export const useDashboardConfig = () => {
     config,
     updateChartTitle,
     toggleChartVisibility,
+    updateLayout,
     resetConfig,
   };
 };
