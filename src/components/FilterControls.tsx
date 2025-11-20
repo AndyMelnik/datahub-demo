@@ -117,7 +117,7 @@ export const FilterControls: React.FC<FilterControlsProps> = ({
           )}
         </div>
       )}
-    </div>
+    </Card>
   );
 };
 
