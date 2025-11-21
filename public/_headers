@@ -1,0 +1,17 @@
+# Headers for Netlify deployment
+# These headers allow the dashboard to be embedded in iframes
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+
+# Allow embedding from specific domains (update with your domains)
+/embed.html
+  Content-Security-Policy: frame-ancestors 'self' https://*.navixy.com
+  X-Frame-Options: ALLOWALL
+
+/index.html
+  Content-Security-Policy: frame-ancestors 'self' https://*.navixy.com
+  X-Frame-Options: ALLOWALL
+

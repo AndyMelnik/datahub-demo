@@ -1,6 +1,5 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
-import { Card } from './ui/Card';
 import type { FleetVehicle } from '../types/fleet';
 
 interface VehicleDetailViewProps {
@@ -102,7 +101,7 @@ export const VehicleDetailView: React.FC<VehicleDetailViewProps> = ({ vehicle })
               <XAxis type="number" domain={[0, 100]} />
               <YAxis type="category" dataKey="name" width={100} />
               <Tooltip 
-                formatter={(value, name, props) => {
+                formatter={(_value, name, props) => {
                   const item = props.payload;
                   return [`${item.actualValue.toFixed(1)}${item.unit}`, name];
                 }}

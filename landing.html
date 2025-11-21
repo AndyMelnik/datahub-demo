@@ -3,178 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fleet Management Dashboard Demo - Navixy</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Fleet Management Dashboard Demo</title>
     <style>
-        .hero-gradient {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
+        
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        /* Dashboard container takes full viewport */
+        .dashboard-iframe-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: #f9fafb;
+        }
+        
+        .dashboard-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        /* Loading state */
+        .iframe-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #6366f1;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .iframe-loading.hidden {
+            display: none;
+        }
+        
+        .spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid #e5e7eb;
+            border-top-color: #6366f1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-2xl font-bold text-indigo-600">Navixy</h1>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="#demo" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Demo</a>
-                    <a href="#features" class="text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium">Features</a>
-                    <a href="https://www.navixy.com" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700">Get Started</a>
-                </div>
-            </div>
+<body>
+    <!-- Embedded Dashboard - Full Screen -->
+    <div class="dashboard-iframe-container">
+        <div id="iframe-loading" class="iframe-loading">
+            <div class="spinner"></div>
+            <p style="font-size: 18px; font-weight: 600;">Loading Dashboard...</p>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-gradient text-white py-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-5xl font-bold mb-6">Fleet Management Dashboard</h1>
-            <p class="text-xl mb-8 text-indigo-100">
-                Real-time monitoring, analytics, and insights for your entire fleet
-            </p>
-            <div class="flex justify-center space-x-4">
-                <a href="#demo" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition">
-                    Try Demo
-                </a>
-                <a href="https://www.navixy.com/contact" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">
-                    Contact Sales
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Powerful Features</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">📊</div>
-                    <h3 class="text-xl font-semibold mb-2">Real-Time Analytics</h3>
-                    <p class="text-gray-600">Monitor your fleet's performance with live data and interactive visualizations.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">🚨</div>
-                    <h3 class="text-xl font-semibold mb-2">Smart Alerts</h3>
-                    <p class="text-gray-600">Get instant notifications for overspeeding, low fuel, battery issues, and more.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">📍</div>
-                    <h3 class="text-xl font-semibold mb-2">Location Tracking</h3>
-                    <p class="text-gray-600">Track vehicles across zones with comprehensive geographic distribution data.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">⚡</div>
-                    <h3 class="text-xl font-semibold mb-2">Fleet Status</h3>
-                    <p class="text-gray-600">View online/offline status, moving/parked vehicles, and connection health.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">🎯</div>
-                    <h3 class="text-xl font-semibold mb-2">Department Insights</h3>
-                    <p class="text-gray-600">Analyze performance metrics by department, group, and vehicle model.</p>
-                </div>
-                <div class="feature-card bg-gray-50 p-6 rounded-lg shadow-sm">
-                    <div class="text-4xl mb-4">🔧</div>
-                    <h3 class="text-xl font-semibold mb-2">Maintenance Monitoring</h3>
-                    <p class="text-gray-600">Track fuel levels, battery health, and identify vehicles needing attention.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Section -->
-    <section id="demo" class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-900 mb-4">Interactive Demo</h2>
-                <p class="text-xl text-gray-600">Explore the full dashboard with real fleet data</p>
-            </div>
+        <iframe 
+            id="dashboard-iframe"
+            src="embed.html" 
+            class="dashboard-iframe"
+            title="Fleet Management Dashboard"
+            allow="fullscreen"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
+        </iframe>
+    </div>
+    
+    <script>
+        // Handle iframe loading and communication
+        (function() {
+            const iframe = document.getElementById('dashboard-iframe');
+            const loading = document.getElementById('iframe-loading');
             
-            <!-- Embedded Dashboard -->
-            <div class="bg-white rounded-xl shadow-2xl overflow-hidden">
-                <div class="border-b border-gray-200 px-6 py-4 bg-gradient-to-r from-indigo-500 to-purple-600">
-                    <div class="flex items-center space-x-2">
-                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
-                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
-                        <span class="ml-4 text-white font-medium">fleet-dashboard.navixy.com</span>
-                    </div>
-                </div>
-                <div class="relative" style="padding-bottom: 75%; height: 0;">
-                    <iframe 
-                        src="index.html" 
-                        class="absolute top-0 left-0 w-full h-full border-0"
-                        title="Fleet Management Dashboard Demo"
-                        style="height: 800px; position: relative; padding-bottom: 0;">
-                    </iframe>
-                </div>
-            </div>
+            // Hide loading indicator when iframe loads
+            iframe.addEventListener('load', function() {
+                setTimeout(function() {
+                    loading.classList.add('hidden');
+                }, 500);
+            });
             
-            <div class="text-center mt-8">
-                <a href="index.html" target="_blank" class="inline-block bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition">
-                    Open Full Dashboard
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Dashboard Capabilities</h2>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="text-4xl font-bold text-indigo-600 mb-2">53+</div>
-                    <p class="text-gray-600">Vehicles Tracked</p>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-indigo-600 mb-2">10+</div>
-                    <p class="text-gray-600">Chart Types</p>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-indigo-600 mb-2">Real-time</div>
-                    <p class="text-gray-600">Data Updates</p>
-                </div>
-                <div>
-                    <div class="text-4xl font-bold text-indigo-600 mb-2">15+</div>
-                    <p class="text-gray-600">Key Metrics</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="hero-gradient text-white py-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold mb-4">Ready to Transform Your Fleet Management?</h2>
-            <p class="text-xl mb-8 text-indigo-100">
-                Get started with Navixy's powerful dashboard solutions today
-            </p>
-            <div class="flex justify-center space-x-4">
-                <a href="https://www.navixy.com/signup" class="bg-white text-indigo-600 px-8 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition">
-                    Start Free Trial
-                </a>
-                <a href="https://www.navixy.com/demo" class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-indigo-600 transition">
-                    Schedule Demo
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p>&copy; 2025 Navixy. All rights reserved.</p>
-            <p class="mt-2 text-sm">Fleet Management Dashboard Demo</p>
-        </div>
-    </footer>
+            // Listen for messages from the embedded dashboard
+            window.addEventListener('message', function(event) {
+                // Verify message source
+                if (event.data.source === 'navixy-dashboard') {
+                    if (event.data.type === 'dashboard-ready') {
+                        console.log('Dashboard is ready!');
+                        loading.classList.add('hidden');
+                    } else if (event.data.type === 'dashboard-resize') {
+                        // Optionally adjust iframe height based on content
+                        console.log('Dashboard size:', event.data.width, 'x', event.data.height);
+                    }
+                }
+            });
+            
+            // Send initial configuration to dashboard if needed
+            iframe.addEventListener('load', function() {
+                iframe.contentWindow.postMessage({
+                    type: 'dashboard-config',
+                    theme: 'light',
+                    embedded: true
+                }, '*');
+            });
+        })();
+    </script>
 </body>
 </html>
 

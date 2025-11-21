@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Fleet Management Dashboard - Embeddable Version" />
+    <title>Fleet Dashboard</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      
+      #root {
+        width: 100%;
+        height: 100%;
+      }
+      
+      /* Optimize for iframe embedding */
+      body {
+        background: transparent;
+      }
+      
+      /* Ensure smooth scrolling in iframe */
+      * {
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+    <script>
+      // Post message to parent when dashboard is ready
+      window.addEventListener('load', function() {
+        if (window.parent !== window) {
+          window.parent.postMessage({
+            type: 'dashboard-ready',
+            source: 'navixy-dashboard'
+          }, '*');
+        }
+      });
+      
+      // Allow parent to communicate with dashboard
+      window.addEventListener('message', function(event) {
+        // Handle messages from parent if needed
+        if (event.data.type === 'dashboard-config') {
+          console.log('Received config from parent:', event.data);
+        }
+      });
+      
+      // Report dashboard height changes to parent for responsive sizing
+      if (window.ResizeObserver) {
+        const resizeObserver = new ResizeObserver(entries => {
+          for (let entry of entries) {
+            if (window.parent !== window) {
+              window.parent.postMessage({
+                type: 'dashboard-resize',
+                source: 'navixy-dashboard',
+                height: entry.contentRect.height,
+                width: entry.contentRect.width
+              }, '*');
+            }
+          }
+        });
+        
+        window.addEventListener('load', function() {
+          const root = document.getElementById('root');
+          if (root) {
+            resizeObserver.observe(root);
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

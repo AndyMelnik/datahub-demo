@@ -28,7 +28,7 @@ export async function loadFleetData(csvPath: string): Promise<FleetVehicle[]> {
         if (header === 'fuel_level_%') return 'fuel_level_percent';
         return header;
       },
-      transform: (value, field) => {
+      transform: (value: string, field: string) => {
         // Convert numeric fields
         if (['object_id', 'device_id', 'speed', 'battery_level', 'fuel_level_percent', 'odometer'].includes(field)) {
           return parseFloat(value) || 0;
@@ -38,7 +38,7 @@ export async function loadFleetData(csvPath: string): Promise<FleetVehicle[]> {
       complete: (results) => {
         resolve(results.data as FleetVehicle[]);
       },
-      error: (error) => {
+      error: (error: Error) => {
         reject(error);
       },
     });

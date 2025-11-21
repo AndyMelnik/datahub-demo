@@ -256,19 +256,90 @@ colors: {
 }
 ```
 
-## 🌐 Embedding in Landing Page
+## 🌐 Embedding in Landing Pages
 
-The project includes `landing.html` which demonstrates how to embed the dashboard:
+**This dashboard is fully optimized for embedding into other websites and landing pages!**
+
+### Quick Embed
+
+Use the dedicated `embed.html` file for best results:
 
 ```html
 <iframe 
-  src="index.html" 
-  class="w-full h-full border-0"
-  title="Fleet Management Dashboard Demo">
+  src="https://your-domain.com/embed.html" 
+  width="100%" 
+  height="800px"
+  title="Fleet Management Dashboard"
+  allow="fullscreen"
+  style="border: none;">
 </iframe>
 ```
 
-Open `landing.html` in your browser to see the complete landing page with the embedded dashboard.
+### Available Files for Embedding
+
+1. **`embed.html`** - ✅ **Recommended for embedding**
+   - Optimized for iframe usage
+   - No extra margins or padding
+   - Includes parent-child communication via postMessage
+   - Auto-reports resize events
+
+2. **`index.html`** - Full standalone dashboard
+   - Use for direct access or opening in new tabs
+   - Full page styling with margins
+
+3. **`landing.html`** - Example landing page with embedded dashboard
+   - See a live example of how to embed the dashboard
+   - Includes loading states and communication handlers
+
+4. **`integration-examples.html`** - Multiple embedding examples
+   - Various integration patterns
+   - Interactive demonstrations
+   - Code snippets for different use cases
+
+### Running the Examples
+
+```bash
+# View the dashboard
+npm run dev
+
+# View the landing page with embedded dashboard
+npm run dev:landing
+
+# View integration examples
+npm run dev:examples
+```
+
+### Features for Embedding
+
+- ✅ **CORS-ready**: Pre-configured headers for cross-origin embedding
+- ✅ **Communication API**: PostMessage support for parent-child interaction
+- ✅ **Responsive**: Adapts to different iframe sizes
+- ✅ **Loading States**: Built-in loading indicators
+- ✅ **Security**: Configurable CSP and X-Frame-Options headers
+- ✅ **Deploy-ready**: Includes Netlify, Vercel, and Nginx configurations
+
+### Advanced Embedding
+
+For detailed embedding instructions, security considerations, and deployment guides, see:
+
+📚 **[EMBEDDING.md](./EMBEDDING.md)** - Complete embedding documentation
+
+Topics covered:
+- Multiple embedding methods
+- Parent-iframe communication
+- Security configuration (CSP, X-Frame-Options)
+- Deployment configurations (Netlify, Vercel, Nginx, Apache)
+- Responsive design tips
+- Troubleshooting guide
+
+### Deployment Configurations Included
+
+The project includes ready-to-use configuration files:
+
+- **`netlify.toml`** - Netlify deployment with proper headers
+- **`vercel.json`** - Vercel deployment configuration
+- **`public/_headers`** - Static headers file
+- **`vite.config.ts`** - CORS and development server configuration
 
 ## 📈 Dashboard Sections
 
@@ -284,9 +355,13 @@ Open `landing.html` in your browser to see the complete landing page with the em
 
 ### Available Scripts
 
-- `npm run dev` - Start development server
+- `npm run dev` - Start development server (dashboard)
+- `npm run dev:landing` - Start development server (landing page)
+- `npm run dev:examples` - Start development server (integration examples)
 - `npm run build` - Build for production
+- `npm run build:embed` - Build optimized for embedding
 - `npm run preview` - Preview production build
+- `npm run preview:landing` - Preview landing page
 - `npm run lint` - Run ESLint
 
 ### Code Quality
