@@ -15,6 +15,8 @@ export default defineConfig({
       input: {
         main: resolve(__dirname, 'index.html'),
         embed: resolve(__dirname, 'embed.html'),
+        embedAnalytics: resolve(__dirname, 'embed-analytics.html'),
+        unifiedAnalytics: resolve(__dirname, 'unified-analytics.html'),
         landing: resolve(__dirname, 'landing.html'),
         examples: resolve(__dirname, 'integration-examples.html'),
       },

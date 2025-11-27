@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fleet Management Dashboard Demo</title>
+    <title>Fleet Analytics Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -17,12 +17,11 @@
             overflow: hidden;
         }
         
-        /* Dashboard container takes full viewport */
-        .dashboard-iframe-container {
+        .dashboard-container {
             position: relative;
             width: 100%;
             height: 100vh;
-            background: #f9fafb;
+            background: #e8f0f7;
         }
         
         .dashboard-iframe {
@@ -32,18 +31,17 @@
             display: block;
         }
         
-        /* Loading state */
-        .iframe-loading {
+        .loading {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: #6366f1;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: #6366f1;
         }
         
-        .iframe-loading.hidden {
+        .loading.hidden {
             display: none;
         }
         
@@ -63,59 +61,40 @@
     </style>
 </head>
 <body>
-    <!-- Embedded Dashboard - Full Screen -->
-    <div class="dashboard-iframe-container">
-        <div id="iframe-loading" class="iframe-loading">
+    <div class="dashboard-container">
+        <div id="loading" class="loading">
             <div class="spinner"></div>
-            <p style="font-size: 18px; font-weight: 600;">Loading Dashboard...</p>
+            <p style="font-size: 16px; font-weight: 600;">Loading Analytics Dashboard...</p>
         </div>
         <iframe 
-            id="dashboard-iframe"
-            src="embed.html" 
+            id="dashboard"
+            src="unified-analytics.html" 
             class="dashboard-iframe"
-            title="Fleet Management Dashboard"
+            title="Fleet Analytics Dashboard"
             allow="fullscreen"
             sandbox="allow-scripts allow-same-origin allow-forms allow-popups">
         </iframe>
     </div>
     
     <script>
-        // Handle iframe loading and communication
         (function() {
-            const iframe = document.getElementById('dashboard-iframe');
-            const loading = document.getElementById('iframe-loading');
+            const iframe = document.getElementById('dashboard');
+            const loading = document.getElementById('loading');
             
-            // Hide loading indicator when iframe loads
             iframe.addEventListener('load', function() {
                 setTimeout(function() {
                     loading.classList.add('hidden');
-                }, 500);
+                }, 300);
             });
             
-            // Listen for messages from the embedded dashboard
             window.addEventListener('message', function(event) {
-                // Verify message source
-                if (event.data.source === 'navixy-dashboard') {
-                    if (event.data.type === 'dashboard-ready') {
-                        console.log('Dashboard is ready!');
+                if (event.data.source === 'navixy-analytics') {
+                    if (event.data.type === 'unified-analytics-ready') {
                         loading.classList.add('hidden');
-                    } else if (event.data.type === 'dashboard-resize') {
-                        // Optionally adjust iframe height based on content
-                        console.log('Dashboard size:', event.data.width, 'x', event.data.height);
                     }
                 }
-            });
-            
-            // Send initial configuration to dashboard if needed
-            iframe.addEventListener('load', function() {
-                iframe.contentWindow.postMessage({
-                    type: 'dashboard-config',
-                    theme: 'light',
-                    embedded: true
-                }, '*');
             });
         })();
     </script>
 </body>
 </html>
-

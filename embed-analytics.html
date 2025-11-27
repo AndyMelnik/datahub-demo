@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Fleet Analytics Dashboard - Embeddable Version" />
+    <title>Analytics Dashboard</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: auto;
+      }
+      
+      #root {
+        width: 100%;
+        min-height: 100%;
+      }
+      
+      /* Optimize for iframe embedding */
+      body {
+        background: transparent;
+      }
+      
+      /* Ensure smooth scrolling in iframe */
+      * {
+        -webkit-overflow-scrolling: touch;
+      }
+    </style>
+    <script>
+      // Redirect to embed route with query params preserved
+      window.addEventListener('load', function() {
+        const params = window.location.search;
+        window.location.href = '/embed' + params;
+      });
+    </script>
+  </head>
+  <body>
+    <div id="root">
+      <div style="display: flex; align-items: center; justify-content: center; min-height: 400px;">
+        <div style="text-align: center;">
+          <div style="width: 48px; height: 48px; border: 4px solid #e5e7eb; border-top-color: #6366f1; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px;"></div>
+          <p style="color: #6366f1; font-family: system-ui, sans-serif;">Loading Analytics...</p>
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
