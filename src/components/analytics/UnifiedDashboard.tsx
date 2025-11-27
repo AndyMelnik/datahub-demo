@@ -103,94 +103,113 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
       className={embedded ? '' : 'min-h-screen'}
       style={{ background: 'var(--surface-2)' }}
     >
-      {/* Compact Header with All Controls */}
-      <div 
-        className="sticky top-0 z-20"
+      {/* Header - matching Fleet dashboard style */}
+      <header 
+        className="shadow-sm"
         style={{ 
           background: 'var(--surface-1)', 
-          borderBottom: '1px solid var(--border)',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          borderBottom: '1px solid var(--border)' 
         }}
       >
-        <div className="px-4 py-3">
-          {/* Title Row - Only if not compact */}
+        <div className="mx-auto px-6 py-4">
+          {/* Title Row */}
           {!compactHeader && (
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <h1 
-                  className="text-lg font-bold"
+                  className="text-2xl font-bold"
                   style={{ color: 'var(--text-primary)' }}
                 >
                   {currentConfig.name} Analytics
                 </h1>
                 <p 
-                  className="text-xs"
-                  style={{ color: 'var(--text-muted)' }}
+                  className="mt-1 text-sm"
+                  style={{ color: 'var(--text-secondary)' }}
                 >
-                  {metrics.length} metrics
+                  {metrics.length} metrics available
                 </p>
               </div>
             </div>
           )}
 
           {/* Controls Row */}
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-4">
             {/* View Mode Toggle */}
-            <div 
-              className="flex rounded-lg p-0.5"
-              style={{ background: 'var(--surface-2)' }}
-            >
-              <button
-                onClick={() => setViewMode('industry')}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                  viewMode === 'industry'
-                    ? 'bg-white text-indigo-700 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+            <div className="flex items-center gap-2">
+              <span 
+                className="text-sm font-medium"
+                style={{ color: 'var(--text-secondary)' }}
               >
-                Industry
-              </button>
-              <button
-                onClick={() => setViewMode('role')}
-                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
-                  viewMode === 'role'
-                    ? 'bg-white text-indigo-700 shadow-sm'
-                    : 'text-gray-500 hover:text-gray-700'
-                }`}
+                View:
+              </span>
+              <div 
+                className="flex rounded-lg p-0.5"
+                style={{ background: 'var(--surface-2)' }}
               >
-                Role
-              </button>
+                <button
+                  onClick={() => setViewMode('industry')}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                    viewMode === 'industry'
+                      ? 'bg-white shadow-sm'
+                      : 'hover:bg-white/50'
+                  }`}
+                  style={{ color: viewMode === 'industry' ? '#1e3a8a' : 'var(--text-muted)' }}
+                >
+                  Industry
+                </button>
+                <button
+                  onClick={() => setViewMode('role')}
+                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                    viewMode === 'role'
+                      ? 'bg-white shadow-sm'
+                      : 'hover:bg-white/50'
+                  }`}
+                  style={{ color: viewMode === 'role' ? '#1e3a8a' : 'var(--text-muted)' }}
+                >
+                  Role
+                </button>
+              </div>
             </div>
+
+            {/* Divider */}
+            <div className="h-6 w-px" style={{ background: 'var(--border)' }} />
 
             {/* Industry/Role Selector */}
             {viewMode === 'industry' ? (
-              <div className="flex items-center gap-1 overflow-x-auto">
+              <div className="flex items-center gap-2 overflow-x-auto">
                 {Object.values(INDUSTRIES).map(industry => (
                   <button
                     key={industry.id}
                     onClick={() => setSelectedIndustry(industry.id)}
-                    className={`px-2.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-all ${
+                    className={`px-3 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap transition-all border ${
                       selectedIndustry === industry.id
-                        ? 'text-white shadow-sm'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        ? 'text-white shadow-sm border-transparent'
+                        : 'border-gray-200 hover:border-gray-300'
                     }`}
-                    style={selectedIndustry === industry.id ? { background: industry.color } : {}}
+                    style={selectedIndustry === industry.id 
+                      ? { background: '#60a5fa', color: 'white' } 
+                      : { background: 'var(--surface-1)', color: 'var(--text-secondary)' }
+                    }
                   >
                     {industry.name}
                   </button>
                 ))}
               </div>
             ) : (
-              <div className="flex items-center gap-1 overflow-x-auto">
+              <div className="flex items-center gap-2 overflow-x-auto">
                 {Object.values(ROLES).map(role => (
                   <button
                     key={role.id}
                     onClick={() => setSelectedRole(role.id)}
-                    className={`px-2.5 py-1.5 text-xs font-medium rounded-lg whitespace-nowrap transition-all ${
+                    className={`px-3 py-1.5 text-sm font-medium rounded-lg whitespace-nowrap transition-all border ${
                       selectedRole === role.id
-                        ? 'text-white shadow-sm bg-indigo-600'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        ? 'text-white shadow-sm border-transparent'
+                        : 'border-gray-200 hover:border-gray-300'
                     }`}
+                    style={selectedRole === role.id 
+                      ? { background: '#60a5fa', color: 'white' } 
+                      : { background: 'var(--surface-1)', color: 'var(--text-secondary)' }
+                    }
                   >
                     {role.name.replace(' Manager', '').replace(' Director', '')}
                   </button>
@@ -208,28 +227,34 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
             />
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Loading State */}
-      {loading ? (
-        <div className="flex items-center justify-center py-20">
-          <div className="text-center">
-            <div 
-              className="animate-spin rounded-full h-10 w-10 mx-auto mb-3"
-              style={{ 
-                borderWidth: '2px',
-                borderStyle: 'solid',
-                borderColor: currentConfig.color,
-                borderTopColor: 'transparent'
-              }}
-            />
-            <p style={{ color: 'var(--text-muted)' }}>Loading metrics...</p>
+      {/* Main Content */}
+      <div className="mx-auto px-6 py-6">
+        {/* Loading State */}
+        {loading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div 
+                className="animate-spin rounded-full h-16 w-16 mx-auto mb-4"
+                style={{ 
+                  borderWidth: '2px',
+                  borderStyle: 'solid',
+                  borderColor: 'var(--primary)',
+                  borderTopColor: 'transparent'
+                }}
+              />
+              <p 
+                className="text-lg"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                Loading metrics...
+              </p>
+            </div>
           </div>
-        </div>
-      ) : (
-        /* Metrics Grid */
-        <div className="px-4 py-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+        ) : (
+          /* Metrics Grid */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {metrics.map(metric => (
               <MetricWidget
                 key={metric.id}
@@ -242,12 +267,12 @@ export const UnifiedDashboard: React.FC<UnifiedDashboardProps> = ({
                   trend: 0,
                 }}
                 onClick={() => handleMetricClick(metric)}
-                compact={true}
+                compact={false}
               />
             ))}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Detail Modal */}
       <MetricDetailModal

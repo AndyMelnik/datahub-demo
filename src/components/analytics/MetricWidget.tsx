@@ -8,9 +8,6 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
-  Cell,
 } from 'recharts';
 import { Card } from '../ui/Card';
 import type { MetricConfig, MetricDataset } from '../../types/analytics';
@@ -22,7 +19,17 @@ interface MetricWidgetProps {
   compact?: boolean;
 }
 
-const CHART_COLORS = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'];
+// Color styles matching Fleet dashboard KPICard
+const colorStyles = {
+  blue: {
+    bg: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%)',
+    text: '#1e3a8a',
+  },
+  gray: {
+    bg: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+    text: '#334155',
+  },
+};
 
 export const MetricWidget: React.FC<MetricWidgetProps> = ({
   metric,
@@ -60,23 +67,15 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
     return data.trend > 0 ? '↑' : '↓';
   };
 
-  const getStatusColor = (): string => {
-    const { thresholds, directionality } = metric;
-    if (!thresholds) return 'bg-gray-100';
-    
-    const value = data.currentValue;
-    const isHigherBetter = directionality === 'higher_is_better';
-    
-    if (isHigherBetter) {
-      if (thresholds.critical && value < thresholds.critical) return 'bg-red-100 border-red-300';
-      if (thresholds.warning && value < thresholds.warning) return 'bg-amber-100 border-amber-300';
-      return 'bg-emerald-100 border-emerald-300';
-    } else {
-      if (thresholds.critical && value > thresholds.critical) return 'bg-red-100 border-red-300';
-      if (thresholds.warning && value > thresholds.warning) return 'bg-amber-100 border-amber-300';
-      return 'bg-emerald-100 border-emerald-300';
+  // Determine color based on metric directionality (blue for positive metrics, gray for caution metrics)
+  const getColorStyle = () => {
+    if (metric.directionality === 'lower_is_better') {
+      return colorStyles.gray;
     }
+    return colorStyles.blue;
   };
+
+  const styles = getColorStyle();
 
   const renderChart = () => {
     if (data.series.length === 0) return null;
@@ -86,7 +85,8 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
       value: point.value,
     }));
 
-    const height = compact ? 60 : 120;
+    const height = compact ? 60 : 100;
+    const chartColor = metric.directionality === 'lower_is_better' ? '#64748b' : '#60a5fa';
 
     switch (metric.chartType) {
       case 'timeseries':
@@ -112,7 +112,7 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
               <Line 
                 type="monotone" 
                 dataKey="value" 
-                stroke="#6366f1" 
+                stroke={chartColor}
                 strokeWidth={2}
                 dot={false}
               />
@@ -139,40 +139,8 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
                 }}
                 formatter={(value: number) => [formatValue(value), metric.label]}
               />
-              <Bar dataKey="value" fill="#6366f1" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="value" fill={chartColor} radius={[4, 4, 0, 0]} />
             </BarChart>
-          </ResponsiveContainer>
-        );
-
-      case 'pie':
-        const pieData = chartData.slice(-5).map((d, i) => ({
-          ...d,
-          fill: CHART_COLORS[i % CHART_COLORS.length],
-        }));
-        return (
-          <ResponsiveContainer width="100%" height={height}>
-            <PieChart>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="date"
-                cx="50%"
-                cy="50%"
-                outerRadius={height / 3}
-              >
-                {pieData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.fill} />
-                ))}
-              </Pie>
-              <Tooltip 
-                contentStyle={{
-                  background: 'var(--surface-1)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '0.5rem',
-                  fontSize: '12px',
-                }}
-              />
-            </PieChart>
           </ResponsiveContainer>
         );
 
@@ -181,12 +149,12 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
           ? data.currentValue 
           : Math.min(100, (data.currentValue / (metric.thresholds?.warning || 100)) * 100);
         return (
-          <div className="relative h-4 bg-gray-200 rounded-full overflow-hidden">
+          <div className="relative h-3 bg-gray-200 rounded-full overflow-hidden mt-2">
             <div 
               className="absolute h-full rounded-full transition-all duration-500"
               style={{ 
                 width: `${percentage}%`,
-                background: percentage >= 80 ? '#10b981' : percentage >= 60 ? '#f59e0b' : '#ef4444',
+                background: chartColor,
               }}
             />
           </div>
@@ -200,76 +168,50 @@ export const MetricWidget: React.FC<MetricWidgetProps> = ({
 
   return (
     <Card 
-      className={`cursor-pointer transition-all hover:shadow-lg ${getStatusColor()} ${compact ? 'p-3' : 'p-4'}`}
+      className={`cursor-pointer transition-all hover:shadow-lg overflow-hidden relative ${compact ? 'p-3' : 'p-4'}`}
       hover={true}
     >
-      <div onClick={onClick}>
-        {/* Header */}
-        <div className="flex items-start justify-between mb-2">
-          <div className="flex-1 min-w-0">
-            <h3 
-              className={`font-semibold truncate ${compact ? 'text-sm' : 'text-base'}`}
-              style={{ color: 'var(--text-primary)' }}
-            >
-              {metric.label}
-            </h3>
-            {!compact && (
-              <p 
-                className="text-xs mt-0.5 truncate"
-                style={{ color: 'var(--text-muted)' }}
-              >
-                {metric.description}
-              </p>
-            )}
-          </div>
-          {metric.group && (
-            <span 
-              className="text-xs px-2 py-0.5 rounded-full ml-2 flex-shrink-0"
-              style={{ 
-                background: 'var(--primary-light)', 
-                color: 'var(--primary)' 
-              }}
-            >
-              {metric.group}
-            </span>
-          )}
-        </div>
+      {/* Background gradient overlay */}
+      <div 
+        className="absolute inset-0 opacity-30"
+        style={{ background: styles.bg }}
+      />
+      
+      <div className="relative z-10" onClick={onClick}>
+        {/* Title */}
+        <p 
+          className="text-xs font-medium mb-1"
+          style={{ color: 'var(--text-secondary)' }}
+        >
+          {metric.label}
+        </p>
 
         {/* Value */}
-        <div className="flex items-baseline gap-3 mb-3">
-          <span 
-            className={`font-bold ${compact ? 'text-2xl' : 'text-3xl'}`}
-            style={{ color: 'var(--text-primary)' }}
+        <div className="flex items-baseline gap-2 mb-2">
+          <p 
+            className={`font-bold ${compact ? 'text-2xl' : 'text-2xl'}`}
+            style={{ color: styles.text }}
           >
             {formatValue(data.currentValue)}
-          </span>
+          </p>
           <span className={`text-sm font-medium ${getTrendColor()}`}>
             {getTrendIcon()} {Math.abs(data.trend).toFixed(1)}%
           </span>
         </div>
 
+        {/* Subtitle/Description */}
+        {!compact && metric.description && (
+          <p 
+            className="text-xs mb-2"
+            style={{ color: 'var(--text-muted)' }}
+          >
+            {metric.description}
+          </p>
+        )}
+
         {/* Chart */}
         {renderChart()}
-
-        {/* Footer */}
-        {!compact && (
-          <div 
-            className="flex items-center justify-between mt-3 pt-3 text-xs"
-            style={{ borderTop: '1px solid var(--border)' }}
-          >
-            <span style={{ color: 'var(--text-muted)' }}>
-              vs previous period
-            </span>
-            <span 
-              className="text-xs font-medium"
-              style={{ color: 'var(--primary)' }}
-            >
-              View details →
-            </span>
-          </div>
-        )}
       </div>
     </Card>
   );
 };
-

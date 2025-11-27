@@ -20,20 +20,32 @@ export const TimeRangeSelector: React.FC<TimeRangeSelectorProps> = ({
   className = '',
 }) => {
   return (
-    <div className={`flex items-center gap-1 ${className}`}>
-      {TIME_RANGE_OPTIONS.map((option) => (
-        <button
-          key={option.value}
-          onClick={() => onChange(option.value)}
-          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all ${
-            value === option.value
-              ? 'bg-indigo-600 text-white shadow-sm'
-              : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
-          }`}
-        >
-          {option.label}
-        </button>
-      ))}
+    <div className={`flex items-center gap-2 ${className}`}>
+      <span 
+        className="text-sm font-medium"
+        style={{ color: 'var(--text-secondary)' }}
+      >
+        Period:
+      </span>
+      <div className="flex items-center gap-1">
+        {TIME_RANGE_OPTIONS.map((option) => (
+          <button
+            key={option.value}
+            onClick={() => onChange(option.value)}
+            className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-all border ${
+              value === option.value
+                ? 'shadow-sm border-transparent'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+            style={value === option.value 
+              ? { background: '#60a5fa', color: 'white' }
+              : { background: 'var(--surface-1)', color: 'var(--text-secondary)' }
+            }
+          >
+            {option.label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
